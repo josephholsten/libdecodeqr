@@ -1,0 +1,78 @@
+# Microsoft Developer Studio Generated Dependency File, included by libdecodeqr.mak
+
+.\bitstream.cpp : \
+	".\bitstream.h"\
+	
+
+.\codedata.cpp : \
+	"..\..\..\..\..\..\..\program files\microsoft visual studio\vc98\include\basetsd.h"\
+	".\bitstream.h"\
+	".\codedata.h"\
+	".\ecidecoder.h"\
+	".\errorcode.h"\
+	".\galois.h"\
+	
+
+.\container.cpp : \
+	"..\..\..\..\..\..\..\program files\microsoft visual studio\vc98\include\basetsd.h"\
+	".\bitstream.h"\
+	".\codedata.h"\
+	".\container.h"\
+	".\ecidecoder.h"\
+	".\errorcode.h"\
+	".\formatinfo.h"\
+	".\galois.h"\
+	
+
+.\ecidecoder.cpp : \
+	"..\..\..\..\..\..\..\program files\microsoft visual studio\vc98\include\basetsd.h"\
+	".\bitstream.h"\
+	".\ecidecoder.h"\
+	
+
+.\formatinfo.cpp : \
+	".\errorcode.h"\
+	".\formatinfo.h"\
+	".\galois.h"\
+	
+
+.\galois.cpp : \
+	".\galois.h"\
+	
+
+.\imagereader.cpp : \
+	"..\..\..\..\..\..\..\program files\microsoft visual studio\vc98\include\basetsd.h"\
+	"..\..\..\..\..\..\..\program files\opencv\cv\include\cv.h"\
+	"..\..\..\..\..\..\..\program files\opencv\cv\include\cvcompat.h"\
+	"..\..\..\..\..\..\..\program files\opencv\cv\include\cvtypes.h"\
+	"..\..\..\..\..\..\..\program files\opencv\cxcore\include\cxcore.h"\
+	"..\..\..\..\..\..\..\program files\opencv\cxcore\include\cxerror.h"\
+	"..\..\..\..\..\..\..\program files\opencv\cxcore\include\cxtypes.h"\
+	".\bitstream.h"\
+	".\codedata.h"\
+	".\container.h"\
+	".\ecidecoder.h"\
+	".\errorcode.h"\
+	".\formatinfo.h"\
+	".\galois.h"\
+	".\imagereader.h"\
+	
+
+.\libdecodeqr.cpp : \
+	"..\..\..\..\..\..\..\program files\microsoft visual studio\vc98\include\basetsd.h"\
+	"..\..\..\..\..\..\..\program files\opencv\cv\include\cv.h"\
+	"..\..\..\..\..\..\..\program files\opencv\cv\include\cvcompat.h"\
+	"..\..\..\..\..\..\..\program files\opencv\cv\include\cvtypes.h"\
+	"..\..\..\..\..\..\..\program files\opencv\cxcore\include\cxcore.h"\
+	"..\..\..\..\..\..\..\program files\opencv\cxcore\include\cxerror.h"\
+	"..\..\..\..\..\..\..\program files\opencv\cxcore\include\cxtypes.h"\
+	".\bitstream.h"\
+	".\codedata.h"\
+	".\container.h"\
+	".\ecidecoder.h"\
+	".\errorcode.h"\
+	".\formatinfo.h"\
+	".\galois.h"\
+	".\imagereader.h"\
+	".\qrtypes.h"\
+	
