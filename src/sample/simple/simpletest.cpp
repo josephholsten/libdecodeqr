@@ -7,11 +7,11 @@
 // This is free software with ABSOLUTELY NO WARRANTY.
 // You can redistribute and/or modify it under the terms of GPLv2.
 //
-// $Id:$
+// $Id$
 //
 #include <stdio.h>
 #include <highgui.h>
-#include "../../decodeqr.h"
+#include "../../libdecodeqr/decodeqr.h"
 
 int main(int argc,char *argv[])
 {
@@ -21,6 +21,11 @@ int main(int argc,char *argv[])
     //
     IplImage *src=cvLoadImage(argv[1],1);
     cvShowImage("src",src);
+
+    //
+    // show version info
+    //
+    printf("libdecodeqr version %s\n",qr_decoder_version());
 
     //
     // initialize
@@ -41,6 +46,7 @@ int main(int argc,char *argv[])
 
     //
     // get QR code text
+    // To null terminate, a buffer size is larger than body size.
     //
     unsigned char *buf=new unsigned char[header.byte_size+1];
     qr_decoder_get_body(decoder,buf,header.byte_size+1);

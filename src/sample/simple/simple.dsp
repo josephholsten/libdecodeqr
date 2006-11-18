@@ -1,24 +1,24 @@
-# Microsoft Developer Studio Project File - Name="test" - Package Owner=<4>
+# Microsoft Developer Studio Project File - Name="simple" - Package Owner=<4>
 # Microsoft Developer Studio Generated Build File, Format Version 6.00
 # ** 編集しないでください **
 
 # TARGTYPE "Win32 (x86) Console Application" 0x0103
 
-CFG=test - Win32 Debug
+CFG=simple - Win32 Debug
 !MESSAGE これは有効なﾒｲｸﾌｧｲﾙではありません。 このﾌﾟﾛｼﾞｪｸﾄをﾋﾞﾙﾄﾞするためには NMAKE を使用してください。
 !MESSAGE [ﾒｲｸﾌｧｲﾙのｴｸｽﾎﾟｰﾄ] ｺﾏﾝﾄﾞを使用して実行してください
 !MESSAGE 
-!MESSAGE NMAKE /f "test.mak".
+!MESSAGE NMAKE /f "simple.mak".
 !MESSAGE 
 !MESSAGE NMAKE の実行時に構成を指定できます
 !MESSAGE ｺﾏﾝﾄﾞ ﾗｲﾝ上でﾏｸﾛの設定を定義します。例:
 !MESSAGE 
-!MESSAGE NMAKE /f "test.mak" CFG="test - Win32 Debug"
+!MESSAGE NMAKE /f "simple.mak" CFG="simple - Win32 Debug"
 !MESSAGE 
 !MESSAGE 選択可能なﾋﾞﾙﾄﾞ ﾓｰﾄﾞ:
 !MESSAGE 
-!MESSAGE "test - Win32 Release" ("Win32 (x86) Console Application" 用)
-!MESSAGE "test - Win32 Debug" ("Win32 (x86) Console Application" 用)
+!MESSAGE "simple - Win32 Release" ("Win32 (x86) Console Application" 用)
+!MESSAGE "simple - Win32 Debug" ("Win32 (x86) Console Application" 用)
 !MESSAGE 
 
 # Begin Project
@@ -28,7 +28,7 @@ CFG=test - Win32 Debug
 CPP=cl.exe
 RSC=rc.exe
 
-!IF  "$(CFG)" == "test - Win32 Release"
+!IF  "$(CFG)" == "simple - Win32 Release"
 
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 0
@@ -51,7 +51,7 @@ LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /machine:I386
 # ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /machine:I386
 
-!ELSEIF  "$(CFG)" == "test - Win32 Debug"
+!ELSEIF  "$(CFG)" == "simple - Win32 Debug"
 
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 1
@@ -73,14 +73,14 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib cv.lib cxcore.lib highgui.lib ws2_32.lib /nologo /subsystem:console /debug /machine:I386 /pdbtype:sept
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib cv.lib cxcore.lib highgui.lib ws2_32.lib /nologo /subsystem:console /debug /machine:I386 /pdbtype:sept
 
 !ENDIF 
 
 # Begin Target
 
-# Name "test - Win32 Release"
-# Name "test - Win32 Debug"
+# Name "simple - Win32 Release"
+# Name "simple - Win32 Debug"
 # Begin Group "Source Files"
 
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
@@ -92,14 +92,14 @@ SOURCE=.\simpletest.cpp
 # Begin Group "Header Files"
 
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
-# Begin Source File
-
-SOURCE=..\decodeqr.h
-# End Source File
 # End Group
 # Begin Group "Resource Files"
 
 # PROP Default_Filter "ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
 # End Group
+# Begin Source File
+
+SOURCE=..\..\libdecodeqr\Debug\libdecodeqr.lib
+# End Source File
 # End Target
 # End Project
