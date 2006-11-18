@@ -7,7 +7,7 @@
 // This is free software with ABSOLUTELY NO WARRANTY.
 // You can redistribute and/or modify it under the terms of GPLv2.
 //
-// $Id:$
+// $Id$
 //
 #include <stdio.h>
 #include <highgui.h>
@@ -21,6 +21,11 @@ int main(int argc,char *argv[])
     //
     IplImage *src=cvLoadImage(argv[1],1);
     cvShowImage("src",src);
+
+    //
+    // show version info
+    //
+    printf("libdecodeqr version %s\n",qr_decoder_version());
 
     //
     // initialize

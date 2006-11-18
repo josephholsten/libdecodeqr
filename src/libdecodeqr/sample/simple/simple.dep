@@ -1,4 +1,4 @@
-# Microsoft Developer Studio Generated Dependency File, included by test.mak
+# Microsoft Developer Studio Generated Dependency File, included by simple.mak
 
 .\simpletest.cpp : \
 	"..\..\..\..\..\..\..\..\..\program files\microsoft visual studio\vc98\include\basetsd.h"\

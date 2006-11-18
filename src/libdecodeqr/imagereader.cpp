@@ -7,11 +7,12 @@
 // This is free software with ABSOLUTELY NO WARRANTY.
 // You can redistribute and/or modify it under the terms of GPLv2.
 //
-// $Id:$
+// $Id$
 //
 #include "imagereader.h"
 
 namespace Qr{
+
     //
     // avoid cvBoundingRect() fxxcin' bug. 
     // 
@@ -20,6 +21,11 @@ namespace Qr{
         CvSeq *contour;
     } ImageReaderCandidate;
 
+
+    /////////////////////////////////////////////////////////////////////
+    //
+    //
+    //
     ImageReader::ImageReader()
     {
         this->_init();
@@ -58,7 +64,6 @@ namespace Qr{
         if(this->_img_src)
             cvReleaseImage(&this->_img_src);
     }
-
     
     void ImageReader::_init()
     {
@@ -105,11 +110,14 @@ namespace Qr{
     Qr *ImageReader::decode(int adaptive_th_size,
                             int adaptive_th_delta)
     {
-        if(!this->_img_src)
-            return(NULL);
-
         if(this->status&QR_IMAGEREADER_WORKING)
             return(NULL);
+
+        if(!this->_img_src){
+            this->status=(QR_IMAGEREADER_ERROR|
+                          QR_IMAGEREADER_NOT_INVALID_SRC_IMAGE);
+            return(NULL);
+        }
 
         this->status=QR_IMAGEREADER_WORKING;
 

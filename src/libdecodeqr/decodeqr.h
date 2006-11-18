@@ -7,7 +7,7 @@
 // This is free software with ABSOLUTELY NO WARRANTY.
 // You can redistribute and/or modify it under the terms of GPLv2.
 //
-// $Id:$
+// $Id$
 //
 #ifndef __QR_DECODER__
 #define __QR_DECODER__
@@ -18,6 +18,18 @@
 
 #define DEFAULT_ADAPTIVE_TH_SIZE 25
 #define DEFAULT_ADAPTIVE_TH_DELTA 10
+
+
+/////////////////////////////////////////////////////////////////////////
+//
+// version information
+//
+extern char *qr_decoder_version();
+extern int qr_decoder_version_major();
+extern int qr_decoder_version_minor();
+extern int qr_decoder_version_teeny();
+extern char *qr_decoder_version_suffix();
+extern char *qr_decoder_version_revision();
 
 
 /////////////////////////////////////////////////////////////////////////

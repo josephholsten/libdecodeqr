@@ -7,7 +7,7 @@
 // This is free software with ABSOLUTELY NO WARRANTY.
 // You can redistribute and/or modify it under the terms of GPLv2.
 //
-// $Id:$
+// $Id$
 //
 #include "ecidecoder.h"
 
@@ -45,10 +45,9 @@ namespace Qr{
         };
         
         //
-        // length of charactor count indicator
-        // [version][mode]
+        // number to alphabet conversion table
         //
-        const static char NUM2ARABIC[45]={
+        const static char NUM2ALPABET[45]={
             0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39, // 0-9
             0x41,0x42,0x43,0x44,0x45,0x46,0x47,0x48,0x49,0x4a, // A-J
             0x4b,0x4c,0x4d,0x4e,0x4f,0x50,0x51,0x52,0x53,0x54, // K-T
@@ -118,18 +117,18 @@ namespace Qr{
             return(0);
         }
 
-        NumericDecoder::NumericDecoder()
+        NumericalDecoder::NumericalDecoder()
         {
             this->mode=1;
             this->_bit_par_block=10;
             this->_char_par_block=3;
             this->_byte_par_char=1;
         }
-        int NumericDecoder::_get_charactor_count(int version)
+        int NumericalDecoder::_get_charactor_count(int version)
         {
             return(CHARACTOR_COUNTS[version][0]);
         }
-        int NumericDecoder::_read_data(BitStream *bitstream)
+        int NumericalDecoder::_read_data(BitStream *bitstream)
         {
             if(bitstream->is_eod())
                 return(0);
@@ -169,18 +168,18 @@ namespace Qr{
         }
 
 
-        ArabicDecoder::ArabicDecoder()
+        AlphabeticalDecoder::AlphabeticalDecoder()
         {
             this->mode=2;
             this->_bit_par_block=11;
             this->_char_par_block=2;
             this->_byte_par_char=1;
         }
-        int ArabicDecoder::_get_charactor_count(int version)
+        int AlphabeticalDecoder::_get_charactor_count(int version)
         {
             return(CHARACTOR_COUNTS[version][1]);
         }
-        int ArabicDecoder::_read_data(BitStream *bitstream)
+        int AlphabeticalDecoder::_read_data(BitStream *bitstream)
         {
             if(bitstream->is_eod())
                 return(0);
@@ -205,7 +204,7 @@ namespace Qr{
             int ret=0;
             if(read_bits==this->_bit_par_block){
                 int x=this->_read_buf/45;
-                char c=NUM2ARABIC[x];
+                char c=NUM2ALPABET[x];
                 if(remain_bytes>0){
                     if(snprintf((char *)this->_current_pos,1,"%c",c)>0){
                         ret++;
@@ -217,7 +216,7 @@ namespace Qr{
             }
             if(remain_bytes>0){
                 int x=this->_read_buf%45;
-                char c=NUM2ARABIC[x];
+                char c=NUM2ALPABET[x];
                 if(snprintf((char *)this->_current_pos,1,"%c",c)>0){
                     ret++;
                     this->_current_pos++;

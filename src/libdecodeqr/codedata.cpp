@@ -7,7 +7,7 @@
 // This is free software with ABSOLUTELY NO WARRANTY.
 // You can redistribute and/or modify it under the terms of GPLv2.
 //
-// $Id:$
+// $Id$
 //
 #include "codedata.h"
 
@@ -432,10 +432,10 @@ namespace Qr{
                 decoder=NULL;
                 break;
             case 1:
-                decoder=new Qr::ECI::NumericDecoder();
+                decoder=new Qr::ECI::NumericalDecoder();
                 break;
             case 2: // arabic and numeric
-                decoder=new Qr::ECI::ArabicDecoder();
+                decoder=new Qr::ECI::AlphabeticalDecoder();
                 break;
             case 4: // 8-bit byte
                 decoder=new Qr::ECI::ByteDecoder();

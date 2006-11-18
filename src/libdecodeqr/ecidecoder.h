@@ -7,7 +7,7 @@
 // This is free software with ABSOLUTELY NO WARRANTY.
 // You can redistribute and/or modify it under the terms of GPLv2.
 //
-// $Id:$
+// $Id$
 //
 #ifndef __QR_ECI_DECODER__
 #define __QR_ECI_DECODER__
@@ -55,24 +55,24 @@ namespace Qr{
             virtual int Decoder::_read_data(BitStream *bitstream);
         };
 
-        class NumericDecoder :public Decoder{
+        class NumericalDecoder :public Decoder{
         private:
             short _read_buf;
         public:
-            NumericDecoder::NumericDecoder();
+            NumericalDecoder::NumericalDecoder();
         private:
-            virtual int NumericDecoder::_get_charactor_count(int version);
-            virtual int NumericDecoder::_read_data(BitStream *bitstream);
+            virtual int NumericalDecoder::_get_charactor_count(int version);
+            virtual int NumericalDecoder::_read_data(BitStream *bitstream);
         };
 
-        class ArabicDecoder :public Decoder{
+        class AlphabeticalDecoder :public Decoder{
         private:
             short _read_buf;
         public:
-            ArabicDecoder::ArabicDecoder();
+            AlphabeticalDecoder::AlphabeticalDecoder();
         private:
-            virtual int ArabicDecoder::_get_charactor_count(int version);
-            virtual int ArabicDecoder::_read_data(BitStream *bitstream);
+            virtual int AlphabeticalDecoder::_get_charactor_count(int version);
+            virtual int AlphabeticalDecoder::_read_data(BitStream *bitstream);
         };
 
         class ByteDecoder :public Decoder{

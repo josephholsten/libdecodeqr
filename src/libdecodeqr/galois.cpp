@@ -8,7 +8,7 @@
 // This is free software with ABSOLUTELY NO WARRANTY.
 // You can redistribute and/or modify it under the terms of GPLv2.
 //
-// $Id:$
+// $Id$
 //
 #include "galois.h"
 
@@ -311,10 +311,10 @@ namespace Galois{
     //
     Polynomial::Polynomial()
     {
-        this->cols=1;
-        this->rows=1;
+        this->cols=0;
+        this->rows=0;
 
-        this->nomial=new Galois::Nomial *[1];
+        this->nomial=NULL;
     }
 
     Polynomial::Polynomial(int rows)
