@@ -33,15 +33,7 @@ namespace Qr{
     ImageReader::ImageReader(int width,int height,int depth,int channel)
     {
         this->_init();
-
-        this->_img_src=cvCreateImage(cvSize(width,height),depth,channel);
-        cvZero(this->_img_src);
-        this->_img_transformed=cvCloneImage(this->_img_src);
-        this->_img_binarized=cvCreateImage(cvSize(this->_img_src->width,
-                                                  this->_img_src->height),
-                                           IPL_DEPTH_8U,1);
-        cvZero(this->_img_binarized);
-        this->_img_tmp_1c=cvCloneImage(this->_img_binarized);
+        this->_alloc_image(width,height,depth,channel);
     }
     ImageReader::~ImageReader()
     {
@@ -55,18 +47,12 @@ namespace Qr{
         cvReleaseMemStorage(&this->_stor_tmp);
         cvReleaseMemStorage(&this->_stor);
 
-        if(this->_img_tmp_1c)
-            cvReleaseImage(&this->_img_tmp_1c);
-        if(this->_img_binarized)
-            cvReleaseImage(&this->_img_binarized);
-        if(this->_img_transformed)
-            cvReleaseImage(&this->_img_transformed);
-        if(this->_img_src)
-            cvReleaseImage(&this->_img_src);
+        this->release_image();
     }
     
     void ImageReader::_init()
     {
+        this->_img_src_internal=NULL;
         this->_img_src=NULL;
         this->_img_transformed=NULL;
         this->_img_binarized=NULL;
@@ -84,14 +70,26 @@ namespace Qr{
         this->status=0;
         this->qr=NULL;
     }
+    void ImageReader::_alloc_image(int width,int height,int depth,int channel)
+    {
+        this->_img_src_internal=cvCreateImage(cvSize(width,height),
+                                              depth,channel);
+        cvZero(this->_img_src_internal);
+        this->_img_src=this->_img_src_internal;
+
+        this->_img_transformed=cvCloneImage(this->_img_src);
+        this->_img_binarized=cvCreateImage(cvSize(this->_img_src->width,
+                                                  this->_img_src->height),
+                                           IPL_DEPTH_8U,1);
+        cvZero(this->_img_binarized);
+        this->_img_tmp_1c=cvCloneImage(this->_img_binarized);
+    }
 
     IplImage *ImageReader::set_image(IplImage *src)
     {
-        if(this->_img_src)
-            cvReleaseImage(&this->_img_src);
+        this->release_image();
 
         this->_img_src=src;
-
         this->_img_transformed=cvCloneImage(this->_img_src);
         this->_img_binarized=cvCreateImage(cvSize(this->_img_src->width,
                                                   this->_img_src->height),
@@ -102,9 +100,49 @@ namespace Qr{
         return(this->_img_src);
     }
 
+    IplImage *ImageReader::set_image(int width,int height,
+                                     int depth,int channel)
+    {
+        this->release_image();
+        this->_alloc_image(width,height,depth,channel);
+
+        return(this->_img_src);
+    }
+
+    void ImageReader::release_image()
+    {
+        if(this->_img_tmp_1c)
+            cvReleaseImage(&this->_img_tmp_1c);
+        if(this->_img_binarized)
+            cvReleaseImage(&this->_img_binarized);
+        if(this->_img_transformed)
+            cvReleaseImage(&this->_img_transformed);
+        if(this->_img_src_internal)
+            cvReleaseImage(&this->_img_src_internal);
+
+        this->_img_tmp_1c=NULL;
+        this->_img_binarized=NULL;
+        this->_img_transformed=NULL;
+        this->_img_src_internal=NULL;
+        this->_img_src=NULL;
+    }
+
+
     IplImage *ImageReader::src_buffer()
     {
         return(this->_img_src);
+    }
+    IplImage *ImageReader::transformed_buffer()
+    {
+        return(this->_img_transformed);
+    }
+    IplImage *ImageReader::binarized_buffer()
+    {
+        return(this->_img_binarized);
+    }
+    IplImage *ImageReader::tmp_buffer()
+    {
+        return(this->_img_tmp_1c);
     }
 
     Qr *ImageReader::decode(int adaptive_th_size,
@@ -140,23 +178,9 @@ namespace Qr{
 
         this->status=QR_IMAGEREADER_WORKING;
 
-        this->_img_src=src;
-        this->_img_transformed=cvCloneImage(this->_img_src);
-        this->_img_binarized=cvCreateImage(cvSize(this->_img_src->width,
-                                                  this->_img_src->height),
-                                           IPL_DEPTH_8U,1);
-        cvZero(this->_img_binarized);
-        this->_img_tmp_1c=cvCloneImage(this->_img_binarized);
-
-
+        this->set_image(src);
         Qr *ret=this->_decode(adaptive_th_size,adaptive_th_delta);
 
-        cvReleaseImage(&this->_img_tmp_1c);
-        this->_img_tmp_1c=NULL;
-        cvReleaseImage(&this->_img_binarized);
-        this->_img_binarized=NULL;
-        cvReleaseImage(&this->_img_transformed);
-        this->_img_transformed=NULL;
         this->_img_src=NULL;
 
         this->status^=QR_IMAGEREADER_WORKING;
@@ -181,7 +205,7 @@ namespace Qr{
 
         cvSmooth(this->_img_tmp_1c,this->_img_binarized,CV_MEDIAN,3);
         cvCopy(this->_img_binarized,this->_img_tmp_1c);
-        if(adaptive_th_size)
+        if(adaptive_th_size>0)
             cvAdaptiveThreshold(this->_img_tmp_1c,
                                 this->_img_binarized,
                                 128,CV_ADAPTIVE_THRESH_MEAN_C,
@@ -244,10 +268,10 @@ namespace Qr{
         }
         
         if(this->_get_format_info(code_matrix,0)<0){
-            this->_get_format_info(code_matrix,1);
-            if(this->qr->formatinfo->status^QR_FORMATINFO_UNRECOVERABLE){
+            if((this->_get_format_info(code_matrix,1)<0)&&
+               (this->qr->formatinfo->status&QR_FORMATINFO_INVALID_LEVEL)){
                 this->_get_format_info(code_matrix,0);
-                if(this->qr->formatinfo->status^QR_FORMATINFO_UNRECOVERABLE){
+                if(this->qr->formatinfo->status&QR_FORMATINFO_INVALID_LEVEL){
                     cvReleaseImage(&code_matrix);
                     this->status|=(QR_IMAGEREADER_ERROR|
                                    this->qr->formatinfo->status);
@@ -960,7 +984,7 @@ namespace Qr{
 
     /////////////////////////////////////////////////////////////////////////
     //
-    // following code originate from OpenCV/cv/src/cvadapthresh.cpp
+    // following code originates in OpenCV/cv/src/cvadapthresh.cpp
     //
     void apaptive_white_leveling(const CvArr* src,
                                  CvArr* dst,

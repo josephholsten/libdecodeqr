@@ -7,7 +7,7 @@
 // This is free software with ABSOLUTELY NO WARRANTY.
 // You can redistribute and/or modify it under the terms of GPLv2.
 //
-// $Id:$
+// $Id$
 //
 #include "formatinfo.h"
 
@@ -62,8 +62,10 @@ namespace Qr{
     int FormatInfo::set_level(int l)
     {
         this->level=l;
-        if(l<0||l>4)
+        if(l<0||l>3){
             this->status|=QR_FORMATINFO_INVALID_LEVEL;
+            this->level=0;
+        }
         return(this->level);
     }
     int FormatInfo::set_mask_pattern(int m)

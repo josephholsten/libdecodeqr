@@ -22,18 +22,6 @@
 
 /////////////////////////////////////////////////////////////////////////
 //
-// version information
-//
-extern char *qr_decoder_version();
-extern int qr_decoder_version_major();
-extern int qr_decoder_version_minor();
-extern int qr_decoder_version_teeny();
-extern char *qr_decoder_version_suffix();
-extern char *qr_decoder_version_revision();
-
-
-/////////////////////////////////////////////////////////////////////////
-//
 // initializer
 //
 // ARGS: none
@@ -106,8 +94,8 @@ extern QrDecoderHandle qr_decoder_set_image_size(
 // RETURN:
 //   QrDecoderHandle handle
 //
-extern QrDecoderHandle qr_decoder_set_image(QrDecoderHandle decoder,
-                                            IplImage *src);
+extern QrDecoderHandle qr_decoder_set_image_buffer(
+    QrDecoderHandle decoder,IplImage *src);
 
 /////////////////////////////////////////////////////////////////////////
 //
@@ -124,6 +112,12 @@ extern QrDecoderHandle qr_decoder_set_image(QrDecoderHandle decoder,
 //
 extern IplImage *qr_decoder_get_image_buffer(QrDecoderHandle decoder);
 
+extern IplImage *qr_decoder_get_transformed_image_buffer(
+    QrDecoderHandle decoder);
+extern IplImage *qr_decoder_get_binarized_image_buffer(
+    QrDecoderHandle decoder);
+extern IplImage *qr_decoder_get_tmp_image_buffer(
+    QrDecoderHandle decoder);
 
 /////////////////////////////////////////////////////////////////////////
 //
@@ -202,4 +196,17 @@ extern int qr_decoder_get_header(QrDecoderHandle decoder,
 //
 extern int qr_decoder_get_body(QrDecoderHandle decoder,
                                unsigned char *buf,int buf_size);
+
+
+/////////////////////////////////////////////////////////////////////////
+//
+// version information
+//
+extern char *qr_decoder_version();
+extern int qr_decoder_version_major();
+extern int qr_decoder_version_minor();
+extern int qr_decoder_version_teeny();
+extern char *qr_decoder_version_suffix();
+extern char *qr_decoder_version_revision();
+
 #endif

@@ -13,32 +13,6 @@
 #include "qrtypes.h"
 #include "version.h"
 
-char *qr_decoder_version()
-{
-    return(LIBDECODEQR_VERSION);
-}
-int qr_decoder_version_major()
-{
-    return(LIBDECODEQR_VERSION_MAJOR);
-}
-int qr_decoder_version_minor()
-{
-    return(LIBDECODEQR_VERSION_MINOR);
-}
-int qr_decoder_version_teeny()
-{
-    return(LIBDECODEQR_VERSION_TEENY);
-}
-char *qr_decoder_version_suffix()
-{
-    return(LIBDECODEQR_VERSION_SUFFIX);
-}
-char *qr_decoder_version_revision()
-{
-    return(LIBDECODEQR_VERSION_REVISION);
-}
-
-
 QrDecoderHandle qr_decoder_open()
 {
     Qr::ImageReader *imagereader=new Qr::ImageReader();
@@ -65,8 +39,7 @@ QrDecoderHandle qr_decoder_set_image_size(QrDecoderHandle decoder,
                                           int depth,int channel)
 {
     Qr::ImageReader *imagereader=(Qr::ImageReader *)decoder;
-    IplImage *src=cvCreateImage(cvSize(width,height),depth,channel);
-    imagereader->set_image(src);
+    imagereader->set_image(width,height,depth,channel);
     
     return((QrDecoderHandle)imagereader);
 }
@@ -77,13 +50,28 @@ IplImage *qr_decoder_get_image_buffer(QrDecoderHandle decoder)
     Qr::ImageReader *imagereader=(Qr::ImageReader *)decoder;
     return(imagereader->src_buffer());
 }
+IplImage *qr_decoder_get_transformed_image_buffer(QrDecoderHandle decoder)
+{
+    Qr::ImageReader *imagereader=(Qr::ImageReader *)decoder;
+    return(imagereader->transformed_buffer());
+}
+IplImage *qr_decoder_get_binarized_image_buffer(QrDecoderHandle decoder)
+{
+    Qr::ImageReader *imagereader=(Qr::ImageReader *)decoder;
+    return(imagereader->binarized_buffer());
+}
+IplImage *qr_decoder_get_tmp_image_buffer(QrDecoderHandle decoder)
+{
+    Qr::ImageReader *imagereader=(Qr::ImageReader *)decoder;
+    return(imagereader->tmp_buffer());
+}
 
 
 QrDecoderHandle qr_decoder_set_image_buffer(QrDecoderHandle decoder,
                                             IplImage *src)
 {
     Qr::ImageReader *imagereader=(Qr::ImageReader *)decoder;
-    imagereader->set_image(src);
+     imagereader->set_image(src);
     
     return((QrDecoderHandle)imagereader);
 }
@@ -141,4 +129,30 @@ int qr_decoder_get_body(QrDecoderHandle decoder,
     memcpy(buf,imagereader->qr->codedata->raw_data(),size);
 
     return(size);
+}
+
+
+char *qr_decoder_version()
+{
+    return(LIBDECODEQR_VERSION);
+}
+int qr_decoder_version_major()
+{
+    return(LIBDECODEQR_VERSION_MAJOR);
+}
+int qr_decoder_version_minor()
+{
+    return(LIBDECODEQR_VERSION_MINOR);
+}
+int qr_decoder_version_teeny()
+{
+    return(LIBDECODEQR_VERSION_TEENY);
+}
+char *qr_decoder_version_suffix()
+{
+    return(LIBDECODEQR_VERSION_SUFFIX);
+}
+char *qr_decoder_version_revision()
+{
+    return(LIBDECODEQR_VERSION_REVISION);
 }

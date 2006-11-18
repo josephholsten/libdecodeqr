@@ -7,7 +7,7 @@
 // This is free software with ABSOLUTELY NO WARRANTY.
 // You can redistribute and/or modify it under the terms of GPLv2.
 //
-// $Id:$
+// $Id$
 //
 #ifndef __QR_IMAGE_READER__
 #define __QR_IMAGE_READER__
@@ -46,6 +46,7 @@ namespace Qr{
         short status;
 
     private:
+        IplImage *_img_src_internal;
         IplImage *_img_src;
         IplImage *_img_transformed;
         IplImage *_img_binarized;
@@ -64,7 +65,14 @@ namespace Qr{
         
         IplImage *ImageReader::set_image(IplImage *src);
         uchar *ImageReader::set_image(uchar *buffer,int size);
-        IplImage*ImageReader::src_buffer();
+        IplImage *ImageReader::set_image(int width,int height,
+                                         int depth,int channel);
+        void ImageReader::release_image();
+
+        IplImage *ImageReader::src_buffer();
+        IplImage *ImageReader::transformed_buffer();
+        IplImage *ImageReader::binarized_buffer();
+        IplImage *ImageReader::tmp_buffer();
 
         Qr *ImageReader::decode(int adaptive_th_size=
                                 DEFAULT_ADAPTIVE_TH_SIZE,
@@ -78,6 +86,8 @@ namespace Qr{
 
     private:
         void ImageReader::_init();
+        void ImageReader::_alloc_image(int width,int height,
+                                       int depth,int channel);
 
         Qr *ImageReader::_decode(int adaptive_th_size,int adaptive_th_delta);
         
