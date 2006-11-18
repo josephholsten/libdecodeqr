@@ -7,7 +7,7 @@
 // This is free software with ABSOLUTELY NO WARRANTY.
 // You can redistribute and/or modify it under the terms of GPLv2.
 //
-// $Id$
+// $Id: version.h 6 2006-11-18 09:37:16Z zophos $
 //
 #ifndef __QR_LIBDECODEQR_VERSION__
 #define __QR_LIBDECODEQR_VERSION__
