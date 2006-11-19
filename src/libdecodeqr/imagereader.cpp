@@ -363,12 +363,14 @@ namespace Qr{
         //
         // check each sqare has inner squire
         //
-        for(int i=0;i<candidates->total;i++){
+        int i;
+        for(i=0;i<candidates->total;i++){
             ImageReaderCandidate *cand1=
                 (ImageReaderCandidate *)cvGetSeqElem(candidates,i);
             
             int inner_contour=0;
-            for(int j=0;j<candidates->total;j++){
+            int j;
+            for(j=0;j<candidates->total;j++){
                 if(i==j)
                     continue;
                 
@@ -431,8 +433,8 @@ namespace Qr{
                                           this->_stor_tmp);
         
 
-        int c=this->_seq_finder_pattern->total;
-        for(int i=0;i<c;i++){
+        int c=this->_seq_finder_pattern->total,i;
+        for(i=0;i<c;i++){
             box=*(CvBox2D *)cvGetSeqElem(this->_seq_finder_pattern,i);
             
             //
@@ -547,11 +549,11 @@ namespace Qr{
         //
         // get Centor of Gravity
         //
-        int c=this->_seq_code_area_contour->total;
+        int c=this->_seq_code_area_contour->total,i;
         CvPoint2D32f cog;
         cog.x=0.0F;
         cog.y=0.0F;
-        for(int i=0;i<c;i++){
+        for(i=0;i<c;i++){
             CvPoint2D32f p=cvPointTo32f(
                 *(CvPoint *)cvGetSeqElem(this->_seq_code_area_contour,i));
             cog.x+=p.x;
@@ -658,7 +660,8 @@ namespace Qr{
         }
         
         uchar lut_data[256];
-        for(int i=0;i<low_th;i++)
+        int i;
+        for(i=0;i<low_th;i++)
             lut_data[i]=0;
         for(i=low_th;i<hi_th;i++)
             lut_data[i]=a*i+b;

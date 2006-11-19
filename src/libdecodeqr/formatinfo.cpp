@@ -125,7 +125,8 @@ namespace Qr{
         Galois::Field *gf=new Galois::Field(4);
         Galois::BCH *bch=new Galois::BCH(gf,15,3);
         unsigned short mask=0x01;
-        for(int i=0;i<15;i++,mask<<=1){
+        int i;
+        for(i=0;i<15;i++,mask<<=1){
             if(*src&mask)
                 bch->set(i,gf->exp2nomial(0));
             else

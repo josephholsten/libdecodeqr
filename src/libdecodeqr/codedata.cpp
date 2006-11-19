@@ -181,8 +181,9 @@ namespace Qr{
         Galois::BCH *bch=new Galois::BCH(this->_gf,
                                          this->total_words,
                                          this->capability);
-        
-        for(int i=this->total_words-1,j=0;i>=0;i--,j++){
+
+        int i,j;
+        for(i=this->total_words-1,j=0;i>=0;i--,j++){
             bch->set(j,this->_gf->vect2nomial(this->data[i]));
         }
         int errors=bch->decode();
@@ -233,7 +234,7 @@ namespace Qr{
         Galois::Polynomial *mat=new Galois::Polynomial(errors,
                                                        errors+1);
         for(j=0;j<errors;j++){
-            for(int i=0;i<errors;i++){
+            for(i=0;i<errors;i++){
                 mat->set(j,i,this->_gf->exp2nomial(j*bch->error_pos[i]));
             }
             mat->set(j,i,bch->syndromes[j]);
@@ -296,7 +297,8 @@ namespace Qr{
         
         this->data=new CodeBlock *[this->data_blocks];
         
-        for(int i=0;i<RS_BLOCK_ALIGN[version][level][1];i++){
+        int i;
+        for(i=0;i<RS_BLOCK_ALIGN[version][level][1];i++){
             this->data[i]=new CodeBlock(
                 RS_BLOCK_ALIGN[version][level][2],
                 RS_BLOCK_ALIGN[version][level][3],

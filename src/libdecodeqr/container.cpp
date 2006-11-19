@@ -36,7 +36,7 @@ namespace Qr{
     {
         if(v<1||v>40){
             this->status|=QR_VERSIONINFO_INVALID;
-            throw(NULL);
+            throw(0);
         }
 
         this->version=v;

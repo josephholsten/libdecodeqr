@@ -189,7 +189,7 @@ namespace Galois{
     Nomial Nomial::operator/(Nomial x)
     {
         if(x.is_zero())
-            throw(NULL);
+            throw(x);
         else if(this->is_zero())
             return(*(((Field *)(this->_gf))->zero()));
         else
@@ -280,7 +280,8 @@ namespace Galois{
 
         unsigned int mask=1;
         this->exp2vect[this->m]=0;
-        for(int i=0;i<this->m;i++,mask<<=1){
+        int i;
+        for(i=0;i<this->m;i++,mask<<=1){
             this->exp2vect[i]=mask;
             this->vect2exp[this->exp2vect[i]]=i;
 
@@ -418,16 +419,16 @@ namespace Galois{
 
     Polynomial *Polynomial::_lu(Polynomial *buf)
     {
-        int count=buf->cols;
+        int count=buf->cols,i,j;
         if(buf->rows<buf->cols)
             count=buf->rows;
 
-        for(int j=0;j<count;j++){
+        for(j=0;j<count;j++){
             Nomial *l;
             //
             // pivot
             //
-            for(int i=j;i<count;i++){
+            for(i=j;i<count;i++){
                 l=buf->get(i,j);
                 if(!l->is_zero())
                     break;
@@ -472,15 +473,15 @@ namespace Galois{
             return(NULL);
 
         if(lu->rows!=this->cols+1)
-            throw(NULL);
+            throw((void *)NULL);
 
         //
         // check rank
         //
-        int rank=0;
-        for(int j=0;j<lu->cols;j++){
+        int rank=0,i,j,k;
+        for(j=0;j<lu->cols;j++){
             bool is_zero_cols=true;
-            for(int k=j;k<lu->cols;k++){
+            for(k=j;k<lu->cols;k++){
                 is_zero_cols&=lu->get(j,k)->is_zero();
             }
             if(!is_zero_cols)
@@ -490,7 +491,7 @@ namespace Galois{
             return(NULL);
 
         Polynomial *ret=new Polynomial(lu->cols);
-        for(int i=0;i<lu->cols;i++){
+        for(i=0;i<lu->cols;i++){
             ret->set(i,lu->get(i,lu->cols));
         }
 
@@ -557,8 +558,8 @@ namespace Galois{
         this->syndrome_size=this->_capability*2+syndrome_base;
         this->syndromes=new Galois::Nomial *[this->syndrome_size];
 
-        int errors=0;
-        for(int i=0;i<this->syndrome_size;i++){
+        int errors=0,i;
+        for(i=0;i<this->syndrome_size;i++){
             this->syndromes[i]=this->_error_syndrome(i);
             if(!this->syndromes[i]->is_zero())
                 errors++;
@@ -598,9 +599,10 @@ namespace Galois{
             this->error_pos=new int[errors];
             memset(this->error_pos,-1,errors);
             
-            for(int j=0,c=0;j<this->rows;j++){
+            int c,i,j;
+            for(j=0,c=0;j<this->rows;j++){
                 Galois::Nomial *sigma=err->get(0);
-                for(int i=1;i<errors;i++){
+                for(i=1;i<errors;i++){
                     sigma=&(*sigma+*err->get(i)*
                             *this->_gf->exp2nomial(j*i));
                 }
