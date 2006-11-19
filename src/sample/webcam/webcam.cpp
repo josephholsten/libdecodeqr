@@ -74,7 +74,8 @@ int main(int argc,char *argv[])
             // adaptive_th_size parameter.
             // Note that the adaptive_th_size must be odd.
             //
-            for(short sz=25,stat=0;
+            short sz,stat;
+            for(sz=25,stat=0;
                 (sz>=3)&&((stat&QR_IMAGEREADER_DECODED)==0);
                 sz-=2)
                 stat=qr_decoder_decode(decoder,sz);
