@@ -1,0 +1,34 @@
+= libdecodeqr =
+
+== Whta's this? ==
+"libdecodeqr" is a c/c++ library for docoding QR code based on
+JIS X 0510 and ISO/IEC18004.
+
+This library can decode miscellaneous images those takes from webcam,
+scanner, and so on.
+
+== Features ==
+''FIXME''
+
+== How to use ==
+
+=== Building ===
+''FIXME''
+
+=== API Reference ===
+see ApiReference
+
+=== Sample Codes ===
+ * [source:trunk/src/sample/simple/simpletest.cpp#latest simple usage]
+ * [source:trunk/src/sample/webcam/webcam.cpp#latest with webcam]
+
+== Requirements ==
+ * VC++6 / gcc
+ * [http://www.sourceforge.net/projects/opencvlibrary/ OpenCV]
+ * Gtk2 for UN*X (required by OpenCV) 
+
+== Copying ==
+Copyright (c) 2006 NISHI Takao <zophos@koka-in.org> All rights reserved.[[BR]]
+This is free software with ABSOLUTELY NO WARRANTY.
+
+You can redistribute and/or modify it under the terms of GPLv2.

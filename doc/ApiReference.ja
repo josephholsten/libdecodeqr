@@ -1,0 +1,301 @@
+= API =
+[[TOC(inline,depth=3)]]
+
+== 型および構造体 ==
+
+=== QrDecoderHandle ===
+{{{
+typedef void * QrDecoderHandle;
+}}}
+
+QRデコーダハンドル
+
+=== QrCodeHeader ===
+{{{
+typedef struct{
+    int model;          // モデル番号
+    int version;        // 型番
+    int level;          // 誤り訂正レベル
+    //int mode;         // 本文モード (未実装)
+    //int eci_mode;     // 本文ECIモード (未実装)
+    int charactor_size; // 本文文字数
+    int byte_size;      // 本文バイト数
+} QrCodeHeader;
+}}}
+
+QRコードヘッダ構造体
+
+== コンストラクタ ==
+
+=== qr_decoder_open ===
+{{{
+QrDecoderHandle qr_decoder_open();
+}}}
+
+ * 引数: なし
+ * 戻り値: QRデコーダハンドル
+
+デコーダを初期化する。
+
+=== qr_decoder_open_with_image_size ===
+{{{
+QrDecoderHandle qr_decoder_open_with_image_size(
+    int width,
+    int height,
+    int depth,
+    int channel
+);
+}}}
+
+ * 引数:
+   * int width : 画像バッファの幅(pixel)
+   * int height : 画像バッファの高さ(pixel)
+   * int depth : 画像バッファのピクセルあたりのbit数
+   * int channel : 画像バッファのチャンネル数
+ * 戻り値: QRデコーダハンドル
+
+画像バッファの幅，高さ，ピクセルあたりのbit数，チャンネル数を指定してデコーダを初期化する。[[BR]]
+ピクセルあたりのbit数はIPL_DEPTH_8UなどOpenCVの定数を指定する。[[BR]]
+一般的な24bitフルカラー画像では depth = IPL_DEPTH_8U, channel = 3 と指定する。
+
+入力画像のサイズが既知の場合，バッファサイズを指定してデコーダを初期化することで，バッファ確保にかかるオーバーヘッドを低減できる。
+
+== デストラクタ ==
+=== qr_decoder_close ===
+{{{
+void qr_decoder_close(QrDecoderHandle decoder);
+}}}
+
+ * 引数:
+   * !QrDecoderHandle decoder : QRデコーダハンドル
+ * 戻り値:なし
+
+デコーダ内の各バッファを破壊し終了処理を行う。
+
+== バッファ初期化 ==
+
+Webカメラからの入力など，フォーマットの一定した画像を連続で扱う際に使用する。
+
+=== qr_decoder_set_image_size ===
+{{{
+qr_decoder_set_image_size(
+    QrDecoderHandle decoder,
+    int width,
+    int height,
+    int depth,
+    int channel
+);
+}}}
+
+ * 引数:
+   * !QrDecoderHandle decoder : QRデコーダハンドル
+   * int width : 画像バッファの幅(pixel)
+   * int height : 画像バッファの高さ(pixel)
+   * int depth : 画像バッファのピクセルあたりのbit数
+   * int channel : 画像バッファのチャンネル数
+ * 戻り値: QRデコーダハンドル
+
+デコーダの入力画像バッファの幅，高さ，ピクセルあたりのbit数，チャンネル数を指定する。[[BR]]
+qr_decoder_open()で初期化したデコーダのバッファのサイズ指定，およびqr_decoder_open_with_image_size()で初期化したデコーダのバッファサイズの再指定を行う。
+
+=== qr_decoder_set_image_buffer ===
+{{{
+QrDecoderHandle qr_decoder_set_image_buffer(
+    QrDecoderHandle decoder,
+    IplImage *src
+);
+}}}
+
+ * 引数:
+   * !QrDecoderHandle decoder : QRデコーダハンドル
+   * !IplImage *src : 画像バッファへのポインタ
+ * 戻り値: QRデコーダハンドル
+
+srcとして指定したIplImage形式の画像バッファをデコーダの画像バッファとする。[[BR]]
+指定するバッファはtop-left origin (src->origin==0)で無ければならない。[[BR]]
+bottom-left origin (src->origin==1)の場合は，highguiのcvConvertImage()などでtop-left originに変換すること。
+
+IplImageの構造は[http://opencvlibrary.sourceforge.net/CxCore#head-b9f1e08636cc1f2bc532f3970cc41deaf5eedd9b OpenCVのマニュアル]を参照のこと。
+
+== バッファ取得 ==
+=== qr_decoder_get_image_buffer ===
+{{{
+IplImage *qr_decoder_get_image_buffer(QrDecoderHandle decoder);
+}}}
+
+ * 引数:
+   * !QrDecoderHandle decoder : QRデコーダハンドル
+ * 戻り値: IplImage型のバッファへのポインタ
+
+qr_decoder_open_with_image_size(), qr_decoder_set_image_size()およびqr_decoder_set_image()で設定された原画像を格納するバッファのアドレスを取得する。
+
+=== qr_decoder_get_transformed_image_buffer ===
+{{{
+IplImage *qr_decoder_get_transformed_image_buffer(QrDecoderHandle decoder);
+}}}
+ * 引数:
+   * !QrDecoderHandle decoder : QRデコーダハンドル
+ * 戻り値: IplImage型のバッファへのポインタ
+
+歪み補正済みカラー画像を格納するバッファのアドレスを取得する。(デバッグ用)
+
+=== qr_decoder_get_binarized_image_buffer ===
+{{{
+IplImage *qr_decoder_get_binarized_image_buffer(QrDecoderHandle decoder);
+}}}
+ * 引数:
+   * !QrDecoderHandle decoder : QRデコーダハンドル
+ * 戻り値: IplImage型のバッファへのポインタ
+
+二値画像を格納するバッファのアドレスを取得する。(デバッグ用)
+
+=== qr_decoder_get_tmp_image_buffer ===
+{{{
+IplImage *qr_decoder_get_tmp_image_buffer(QrDecoderHandle decoder);
+}}}
+ * 引数:
+   * !QrDecoderHandle decoder : QRデコーダハンドル
+ * 戻り値: IplImage型のバッファへのポインタ
+
+ワークバッファのアドレスを取得する。(デバッグ用)
+
+== デコード ==
+=== qr_decoder_decode ===
+{{{
+short qr_decoder_decode(
+    QrDecoderHandle decoder,
+    int adaptive_th_size=DEFAULT_ADAPTIVE_TH_SIZE,
+    int adaptive_th_delta=DEFAULT_ADAPTIVE_TH_DELTA
+);
+}}}
+
+ * 引数:
+   * !QrDecoderHandle decoder : QRデコーダハンドル
+   * int adaptive_th_size : 動的二値化処理ブロックサイズ
+   * int adaptive_th_delta : 動的二値化処理差分閾値
+ * 戻り値: デコード結果ステータス
+
+初期化済みバッファの内容をデコードする。[[BR]]
+adaptive_th_sizeは3以上の奇数または0以下の値を指定すること。[[BR]]
+adaptive_th_sizeに0以下の値を指定したときは，adaptive_th_deltaを閾値とする固定二値化処理が行われる。
+
+デコード結果ステータスは[source:/trunk/src/libdecodeqr/errorcode.h#latest errorcode.h]で定義された値のうち該当するものをOR処理したものとなる。
+
+ex)
+ * デコード成功時: QR_IMAGEREADER_DECODED
+ * デコードには成功したが本文に修復不能なエラーが含まれていたとき: QR_IMAGEREADER_DECODED|QR_CODEDATA_UNRECOVERABLE
+ * 画像からQRコードを特定できずデコードに失敗したとき: QR_IMAGEREADER_ERROR|QR_IMAGEREADER_NOT_FOUND_FINDER_PATTERN
+
+
+=== qr_decoder_decode_image ===
+{{{
+short qr_decoder_decode_image(
+    QrDecoderHandle decoder,
+    IplImage *src,
+    int adaptive_th_size=DEFAULT_ADAPTIVE_TH_SIZE,
+    int adaptive_th_delta=DEFAULT_ADAPTIVE_TH_DELTA
+);
+}}}
+
+ * 引数:
+   * !QrDecoderHandle decoder : QRデコーダハンドル
+   * !IplImage *src : 画像バッファへのポインタ
+   * int adaptive_th_size : 動的二値化処理ブロックサイズ
+   * int adaptive_th_delta : 動的二値化処理差分閾値
+ * 戻り値: デコード結果ステータス。
+
+srcに与えられた画像をデコードする。
+
+srcとして指定したIplImage形式の画像バッファをデコーダの画像バッファとする。[[BR]]
+指定するバッファはtop-left origin (src->origin==0)で無ければならない。[[BR]]
+bottom-left origin (src->origin==1)の場合は，highguiのcvConvertImage()などでtop-left originに変換すること。
+
+== デコード済みデータ取得 ==
+=== qr_decoder_get_header ===
+{{{
+int qr_decoder_get_header(
+    QrDecoderHandle decoder,
+    QrCodeHeader *header
+);
+}}}
+
+ * 引数:
+   * !QrDecoderHandle decoder : QRデコーダハンドル
+   * !QrCodeHeader *header : QRコードヘッダ構造体を格納するバッファへのポインタ
+ * 戻り値: 失敗時:0，成功時:1
+
+QRコードヘッダ構造体を取得し，headerに指定されたバッファに格納する。
+
+
+=== qr_decoder_get_body ===
+{{{
+int qr_decoder_get_body(
+    QrDecoderHandle decoder,
+    unsigned char *buf,
+    int buf_size
+);
+}}}
+
+ * 引数:
+   * !QrDecoderHandle decoder : QRデコーダハンドル
+   * unsigned char *buf : QRコード本文を格納するバッファへのポインタ
+   * int buf_size : バッファサイズ(byte)
+ * 戻り値: 失敗時:0，成功時:格納された本文のbyte数
+
+QRコード本文を取得し，bufに指定されたバッファに格納する。
+
+格納された本文には，その形式に関わらず，終端文字'\0'が'''追加されない'''。[[BR]]
+ただしバッファは事前に0クリアされるので，qr_decoder_get_body()で取得できる本文のbyte数より大きなサイズのバッファを用意することで終端文字のかわりとできる。
+
+== バージョン情報 ==
+バージョン情報は "Major.Minor.Teeny Suffix (Revision)" から構成され，Major, Minor, Teenyはリリース時に更新される。[[BR]]
+開発中バージョンは，時期リリース予定の"Major.Minor.Teeny"のあとにSuffixとして"-dev"を付加し，開発中バージョン間は Revisionで区別する。
+
+=== qr_decoder_version ===
+{{{
+char *qr_decoder_version();
+}}}
+
+ * 引数: なし
+ * 戻り値: バージョン情報 (文字列)へのポインタ
+
+=== qr_decoder_version_major ===
+{{{
+int qr_decoder_version_major();
+}}}
+
+ * 引数: なし
+ * 戻り値: メジャーバージョン
+
+=== qr_decoder_version_minor ===
+{{{
+int qr_decoder_version_minor();
+}}}
+
+ * 引数: なし
+ * 戻り値: マイナーバージョン
+
+=== qr_decoder_version_teeny ===
+{{{
+int qr_decoder_version_teeny();
+}}}
+
+ * 引数: なし
+ * 戻り値: ティニアバージョン
+
+
+=== qr_decoder_version_suffix ===
+{{{
+char *qr_decoder_version_suffix();
+}}}
+
+ * 引数: なし
+ * 戻り値: バージョンサフィックス(文字列)へのポインタ
+
+=== qr_decoder_version_revision ===
+{{{
+char *qr_decoder_version_revision();
+}}}
+
+ * 引数: なし
+ * 戻り値: リビジョン情報(文字列)へのポインタ
