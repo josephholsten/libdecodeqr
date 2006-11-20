@@ -9,42 +9,34 @@
 #
 # $Id$
 #
-MAJOR=0
-MINOR=9
-TEENY=2
-
-BASENAME=libdecodeqr
-LIBNAME_A=$(BASENAME).a
-SONAME=$(BASENAME).so.$(MAJOR)
-LIBNAME_SO=$(BASENAME).so.$(MAJOR).$(MINOR).$(TEENY)
-
 OPENCV_INCLUDE=/usr/local/include/opencv
+LIBDECODEQR_DIR=../../libdecodeqr
 
 INCLUDE_DIR:=$(OPENCV_INCLUDE)
+LIB_DIR:=$(LIBDECODEQR_DIR)
+
 INCLUDE=-I$(INCLUDE_DIR)
+LIBS=-ldecodeqr -lcv -lhighgui
 
 CC=gcc
-CC_OPT=-fPIC -c -x 'c++'
+CC_OPT=-c -x 'c++'
 LD=gcc
-LD_OPT=-shared -Wl,-soname,$(SONAME)
-AR=ar
-AR_OPT=rcs
+LD_OPT=
+
+VPATH=./:$(LIBDECODEQR_DIR)
 
 .SUFFIXES: .cpp .o
 .cpp.o:
 	$(CC) $(CC_OPT) $(INCLUDE) $<
 
-headers:=$(wildcard *.h)
 sources:=$(wildcard *.cpp)
 objs:=$(patsubst %.cpp,%.o,$(wildcard *.cpp))
+dst:=simpletest
 
-all: $(LIBNAME_A) $(LIBNAME_SO)
+all: $(dst)
 
-$(LIBNAME_A): $(objs)
-	$(AR) $(AR_OPT) $@ $(objs)
-
-$(LIBNAME_SO): $(objs)
-	$(LD) $(LD_OPT) -o $@ $(objs)
+$(dst): $(objs) libdecodeqr.a
+	$(LD) $(LD_OPT) -o $@ $(objs) -L$(LIB_DIR) $(LIBS)
 
 clean:
-	-rm *.a *.o *.so.*
+	-rm *.o $(dst)

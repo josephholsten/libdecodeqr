@@ -13,6 +13,8 @@
 #include "qrtypes.h"
 #include "version.h"
 
+extern "C" {
+
 QrDecoderHandle qr_decoder_open()
 {
     Qr::ImageReader *imagereader=new Qr::ImageReader();
@@ -155,4 +157,6 @@ char *qr_decoder_version_suffix()
 char *qr_decoder_version_revision()
 {
     return(LIBDECODEQR_VERSION_REVISION);
+}
+
 }

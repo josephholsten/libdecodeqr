@@ -20,6 +20,10 @@
 #define DEFAULT_ADAPTIVE_TH_DELTA 10
 
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /////////////////////////////////////////////////////////////////////////
 //
 // initializer
@@ -138,11 +142,17 @@ extern IplImage *qr_decoder_get_tmp_image_buffer(
 //   In case of adaptive_th_size=0, binarizing methods will be
 //   used cvThreshlod() instead of cvAdaptiveThreshold()
 //
+#ifdef __cplusplus
 extern short qr_decoder_decode(QrDecoderHandle decoder,
                                int adaptive_th_size=
                                DEFAULT_ADAPTIVE_TH_SIZE,
                                int adaptive_th_delta=
                                DEFAULT_ADAPTIVE_TH_DELTA);
+#else
+extern short qr_decoder_decode(QrDecoderHandle decoder,
+                               int adaptive_th_size,
+                               int adaptive_th_delta);
+#endif
 
 /////////////////////////////////////////////////////////////////////////
 //
@@ -157,12 +167,19 @@ extern short qr_decoder_decode(QrDecoderHandle decoder,
 // RETURN:
 //   short: status code of decoder
 //
+#ifdef __cplusplus
 extern short qr_decoder_decode_image(QrDecoderHandle decoder,
                                      IplImage *src,
                                      int adaptive_th_size=
                                      DEFAULT_ADAPTIVE_TH_SIZE,
                                      int adaptive_th_delta=
                                      DEFAULT_ADAPTIVE_TH_DELTA);
+#else
+extern short qr_decoder_decode_image(QrDecoderHandle decoder,
+                                     IplImage *src,
+                                     int adaptive_th_size,
+                                     int adaptive_th_delta);
+#endif
 
 /////////////////////////////////////////////////////////////////////////
 //
@@ -208,5 +225,9 @@ extern int qr_decoder_version_minor();
 extern int qr_decoder_version_teeny();
 extern char *qr_decoder_version_suffix();
 extern char *qr_decoder_version_revision();
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

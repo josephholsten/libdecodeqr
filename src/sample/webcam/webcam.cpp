@@ -93,14 +93,14 @@ int main(int argc,char *argv[])
             if(stat&=QR_IMAGEREADER_DECODED){
                 QrCodeHeader header;
                 qr_decoder_get_header(decoder,&header);
-                if(text_sz<header.byte_size+1){
+                if(text_size<header.byte_size+1){
                     if(text)
                         delete text;
                     
-                    text_sz=header.byte_size+1;
-                    text=new unsigned char[text_sz];
+                    text_size=header.byte_size+1;
+                    text=new unsigned char[text_size];
                 }
-                qr_decoder_get_body(decoder,text,text_sz);
+                qr_decoder_get_body(decoder,text,text_size);
                 printf("%s\n\n",text);
 
                 key=cvWaitKey(1000);
