@@ -1,42 +1,40 @@
-#!/usr/bin/make
 #
-# Makefile -- a part of libdecodeqr
+# Makefile.in -- a part of libdecodeqr
 #
 # Copyright (c) 2006 NISHI Takao <zophos@koka-in.org>
 #
 # This is free software with ABSOLUTELY NO WARRANTY.
 # You can redistribute and/or modify it under the terms of GPLv2.
 #
-# $Id$
+# $Id: Makefile 20 2006-11-20 03:26:52Z zophos $
 #
-OPENCV_INCLUDE=/usr/local/include/opencv
 LIBDECODEQR_DIR=../../libdecodeqr
 
-INCLUDE_DIR:=$(OPENCV_INCLUDE)
-LIB_DIR:=$(LIBDECODEQR_DIR)
+CXX=@CXX@
+CPPFLAGS=@CPPFLAGS@ @CXXFLAGS@ -c -I$(LIBDECODEQR_DIR)
 
-INCLUDE=-I$(INCLUDE_DIR)
-LIBS=-ldecodeqr -lcv -lhighgui
+LIBCV=@LIBCV@
+LIBHIGHGUI=@LIBHIGHGUI@
+LIBS=$(LIBCV) $(LIBHIGHGUI) -ldecodeqr
 
-CC=gcc
-CC_OPT=-c -x 'c++'
-LD=gcc
-LD_OPT=
+LD=@LD@
+LDFLAGS=@LDFLAGS@ -L$(LIBDECODEQR_DIR) $(LIBS)
 
 VPATH=./:$(LIBDECODEQR_DIR)
 
 .SUFFIXES: .cpp .o
 .cpp.o:
-	$(CC) $(CC_OPT) $(INCLUDE) $<
+	$(CXX) $(CPPFLAGS) $<
+
 
 sources:=$(wildcard *.cpp)
 objs:=$(patsubst %.cpp,%.o,$(wildcard *.cpp))
-dst:=webcam
+dst:=simpletest
 
 all: $(dst)
 
 $(dst): $(objs) libdecodeqr.a
-	$(LD) $(LD_OPT) -o $@ $(objs) -L$(LIB_DIR) $(LIBS)
+	$(LD) -o $@ $(objs) $(LDFLAGS)
 
 clean:
 	-rm *.o $(dst)

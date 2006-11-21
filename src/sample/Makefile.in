@@ -1,0 +1,35 @@
+#
+# Makefile.in -- a part of libdecodeqr
+#
+# Copyright (c) 2006 NISHI Takao <zophos@koka-in.org>
+#
+# This is free software with ABSOLUTELY NO WARRANTY.
+# You can redistribute and/or modify it under the terms of GPLv2.
+#
+# $Id: Makefile 20 2006-11-20 03:26:52Z zophos $
+#
+CXX=@CXX@
+CPPFLAGS=@CPPFLAGS@ @CXXFLAGS@ -c
+
+LIBCV=@LIBCV@
+LIBHIGHGUI=@LIBHIGHGUI@
+
+LD=@LD@
+LDFLAGS=@LDFLAGS@ $(LIBS)
+
+export CXX CPPFLAGS LD LDFLAGS LIBCV LIBHIGHGUI
+
+dirs:=simple webcam
+.PHONY: $(dirs)
+
+all: $(dirs)
+
+$(dirs):
+	cd $@ && $(MAKE)
+
+install: $(dirs)
+
+clean:
+	for x in $(dirs); do cd $$x && $(MAKE) clean && cd ../;done
+
+

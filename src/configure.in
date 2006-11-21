@@ -1,0 +1,103 @@
+#                                               -*- Autoconf -*-
+# Process this file with autoconf to produce a configure script.
+
+AC_PREREQ(2.59)
+AC_INIT(libdecodeqr, package, zophos@koka-in.org)
+AC_CONFIG_SRCDIR([$srcdir/libdecodeqr/imagereader.cpp])
+dnl AC_CONFIG_HEADER([config.h])
+
+# Checks for programs.
+AC_LANG_CPLUSPLUS
+
+#
+# Check if don't want -g option
+#
+AC_ARG_ENABLE(optimize,
+       [  --enable-optimize       turn off debug information (CC -g option). ],
+       [enable_optimize=$enableval], [enable_optimize=no])
+if test x"$enable_optimize" = xyes; then
+   CXXFLAGS="$CXXFLAGS -O2"
+fi
+
+AC_PROG_CXX
+AC_PROG_INSTALL
+AC_CHECK_TOOL(AR,ar)
+AC_CHECK_TOOL(LD,ld)
+AC_CHECK_TOOL(LN,ln)
+
+# Checks for libraries.
+AC_CHECK_LIB(cv,cvCreateImage,LIBCV=-lcv,)
+if test -z "$LIBCV"; then
+   echo
+   echo "If your system already has OpenCV, append place of the libcv.la"
+   echo "to your LDFLAGS environment variables. eg,"
+   echo
+   echo 'LDFLAGS="$LDFLAGS -L/usr/local/opencv/lib";export LDFLAGS'
+   echo
+   AC_MSG_ERROR(libcv.la not found.)
+fi
+AC_SUBST(LIBCV)
+
+AC_CHECK_LIB(highgui,cvShowImage,LIBHIGHGUI=-lhighgui,)
+if test -z "$LIBHIGHGUI"; then
+   echo
+   echo "If your system already has OpenCV, append place of the libhighgui.la"
+   echo "to your LDFLAGS environment variables. eg,"
+   echo
+   echo 'LDFLAGS="$LDFLAGS -L/usr/local/opencv/lib";export LDFLAGS'
+   echo
+   AC_MSG_ERROR(libhighgui.la not found.)
+fi
+AC_SUBST(LIBHIGHGUI)
+
+
+# Checks for header files.
+AC_CHECK_HEADERS([memory.h netinet/in.h])
+
+AC_CHECK_HEADER(cv.h,HAVE_CV_H=yes,)
+if test -z "$HAVE_CV_H"; then
+   echo
+   echo "If your system already has OpenCV, append place of the cv.h"
+   echo "to your CPPFLAGS environment variables. eg,"
+   echo
+   echo 'CPPFLAGS="$CPPFLAGS -I/usr/local/opencv/cv/include";export CPPFLAGS'
+   echo
+   AC_MSG_ERROR(cv.h not found.)
+fi
+
+
+# Checks for typedefs, structures, and compiler characteristics.
+AC_HEADER_STDBOOL
+AC_C_CONST
+AC_C_INLINE
+AC_TYPE_SIZE_T
+
+# Checks for library functions.
+AC_HEADER_STDC
+AC_CHECK_FUNCS([memset snprintf])
+
+AC_ARG_ENABLE(debug,
+       [  --enable-debugmessage   turn on debug message.],
+       [enable_debugmessage$enableval], [enable_debugmessage=no])
+if test x"$enable_debugmessage" = xyes; then
+   CPPFLAGS="$CPPFLAGS -D_DEBUG"
+fi
+
+
+# Get version info
+libdecodeqr=$srcdir/libdecodeqr
+decodeqr_major_version=`grep '#define LIBDECODEQR_VERSION_MAJOR' $libdecodeqr/version.h`
+decodeqr_minor_version=`grep '#define LIBDECODEQR_VERSION_MINOR' $libdecodeqr/version.h`
+decodeqr_teeny_version=`grep '#define LIBDECODEQR_VERSION_TEENY' $libdecodeqr/version.h`
+
+MAJOR=`expr "$decodeqr_major_version" : '#define LIBDECODEQR_VERSION_MAJOR \([0-9]*\)'`
+MINOR=`expr "$decodeqr_minor_version" : '#define LIBDECODEQR_VERSION_MINOR \([0-9]*\)'`
+TEENY=`expr "$decodeqr_teeny_version" : '#define LIBDECODEQR_VERSION_TEENY \([0-9]*\)'`
+
+AC_SUBST(MAJOR)
+AC_SUBST(MINOR)
+AC_SUBST(TEENY)
+
+AC_OUTPUT([Makefile
+libdecodeqr/Makefile
+sample/Makefile])
