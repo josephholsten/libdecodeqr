@@ -29,7 +29,7 @@ VPATH=./:$(LIBDECODEQR_DIR)
 
 sources:=$(wildcard *.cpp)
 objs:=$(patsubst %.cpp,%.o,$(wildcard *.cpp))
-dst:=simpletest
+dst:=webcam
 
 all: $(dst)
 
