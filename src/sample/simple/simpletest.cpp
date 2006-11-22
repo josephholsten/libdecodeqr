@@ -50,7 +50,7 @@ int main(int argc,char *argv[])
     //
     unsigned char *buf=new unsigned char[header.byte_size+1];
     qr_decoder_get_body(decoder,buf,header.byte_size+1);
-    printf("%s\n",buf);
+    printf("%s\n",(char *)buf);
 
     //
     // finalize

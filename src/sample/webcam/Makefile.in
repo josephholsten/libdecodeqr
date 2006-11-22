@@ -17,8 +17,7 @@ LIBCV=@LIBCV@
 LIBHIGHGUI=@LIBHIGHGUI@
 LIBS=$(LIBCV) $(LIBHIGHGUI) -ldecodeqr
 
-LD=@LD@
-LDFLAGS=@LDFLAGS@ -L$(LIBDECODEQR_DIR) $(LIBS)
+LDFLAGS=@LDFLAGS@ -L$(LIBDECODEQR_DIR)
 
 VPATH=./:$(LIBDECODEQR_DIR)
 
@@ -34,7 +33,7 @@ dst:=webcam
 all: $(dst)
 
 $(dst): $(objs) libdecodeqr.a
-	$(LD) -o $@ $(objs) $(LDFLAGS)
+	$(CXX) $(LDFLAGS) -o $@ $(objs) $(LIBS)
 
 clean:
 	-rm *.o $(dst)
