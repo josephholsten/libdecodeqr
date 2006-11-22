@@ -57,56 +57,56 @@ namespace Qr{
         CvSeq *_seq_code_area_contour;
 
     public:
-        ImageReader::ImageReader();
-        ImageReader::ImageReader(int width,int height,
+        ImageReader();
+        ImageReader(int width,int height,
                                  int depth=IPL_DEPTH_8U,
                                  int channel=3);
-        ImageReader::~ImageReader();
+        ~ImageReader();
         
-        IplImage *ImageReader::set_image(IplImage *src);
-        uchar *ImageReader::set_image(uchar *buffer,int size);
-        IplImage *ImageReader::set_image(int width,int height,
+        IplImage *set_image(IplImage *src);
+        uchar *set_image(uchar *buffer,int size);
+        IplImage *set_image(int width,int height,
                                          int depth,int channel);
-        void ImageReader::release_image();
+        void release_image();
 
-        IplImage *ImageReader::src_buffer();
-        IplImage *ImageReader::transformed_buffer();
-        IplImage *ImageReader::binarized_buffer();
-        IplImage *ImageReader::tmp_buffer();
+        IplImage *src_buffer();
+        IplImage *transformed_buffer();
+        IplImage *binarized_buffer();
+        IplImage *tmp_buffer();
 
-        Qr *ImageReader::decode(int adaptive_th_size=
+        Qr *decode(int adaptive_th_size=
                                 DEFAULT_ADAPTIVE_TH_SIZE,
                                 int adaptive_th_delta=
                                 DEFAULT_ADAPTIVE_TH_DELTA);
-        Qr *ImageReader::decode(IplImage *src,
+        Qr *decode(IplImage *src,
                                 int adaptive_th_size=
                                 DEFAULT_ADAPTIVE_TH_SIZE,
                                 int adaptive_th_delta=
                                 DEFAULT_ADAPTIVE_TH_DELTA);
 
     private:
-        void ImageReader::_init();
-        void ImageReader::_alloc_image(int width,int height,
+        void _init();
+        void _alloc_image(int width,int height,
                                        int depth,int channel);
 
-        Qr *ImageReader::_decode(int adaptive_th_size,int adaptive_th_delta);
+        Qr *_decode(int adaptive_th_size,int adaptive_th_delta);
         
-        CvSeq *ImageReader::_find_finder_pattern();
-        CvSeq *ImageReader::_find_code_area_contour(double th);
-        CvRect ImageReader::_transform_image();
-        void ImageReader::_create_posterized_image(int block_size,
+        CvSeq *_find_finder_pattern();
+        CvSeq *_find_code_area_contour(double th);
+        CvRect _transform_image();
+        void _create_posterized_image(int block_size,
                                                    double delta,
                                                    int low_th,
                                                    int hi_th);
-        IplImage *ImageReader::_get_code_matrix();
-        int ImageReader::_get_format_info(IplImage *src,int pos=0);
-        IplImage *ImageReader::_get_function_patterns();
-        void ImageReader::_unmask_code_matrix(IplImage *src,
+        IplImage *_get_code_matrix();
+        int _get_format_info(IplImage *src,int pos=0);
+        IplImage *_get_function_patterns();
+        void _unmask_code_matrix(IplImage *src,
                                               IplImage *function_patterns);
-        int ImageReader::_read_code_word(IplImage *src,IplImage *mask);
+        int _read_code_word(IplImage *src,IplImage *mask);
 
-        double ImageReader::_get_cell_size();
-        IplImage *ImageReader::_get_mask_pattern();
+        double _get_cell_size();
+        IplImage *_get_mask_pattern();
 
     };
 

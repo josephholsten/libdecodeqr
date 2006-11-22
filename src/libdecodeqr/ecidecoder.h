@@ -43,66 +43,66 @@ namespace Qr{
             unsigned char *_current_pos;
 
         public:
-            Decoder::Decoder();
-            Decoder::~Decoder();
+            Decoder();
+            ~Decoder();
             
-            unsigned char *Decoder::raw_data();
-            virtual int Decoder::decode(int version,BitStream *bitstream);
+            unsigned char *raw_data();
+            virtual int decode(int version,BitStream *bitstream);
 
         private:
-            virtual int Decoder::_read_header(int version,BitStream *bitstream);
-            virtual int Decoder::_get_charactor_count(int version)=0;
-            virtual int Decoder::_read_data(BitStream *bitstream);
+            virtual int _read_header(int version,BitStream *bitstream);
+            virtual int _get_charactor_count(int version)=0;
+            virtual int _read_data(BitStream *bitstream);
         };
 
         class NumericalDecoder :public Decoder{
         private:
             short _read_buf;
         public:
-            NumericalDecoder::NumericalDecoder();
+            NumericalDecoder();
         private:
-            virtual int NumericalDecoder::_get_charactor_count(int version);
-            virtual int NumericalDecoder::_read_data(BitStream *bitstream);
+            virtual int _get_charactor_count(int version);
+            virtual int _read_data(BitStream *bitstream);
         };
 
         class AlphabeticalDecoder :public Decoder{
         private:
             short _read_buf;
         public:
-            AlphabeticalDecoder::AlphabeticalDecoder();
+            AlphabeticalDecoder();
         private:
-            virtual int AlphabeticalDecoder::_get_charactor_count(int version);
-            virtual int AlphabeticalDecoder::_read_data(BitStream *bitstream);
+            virtual int _get_charactor_count(int version);
+            virtual int _read_data(BitStream *bitstream);
         };
 
         class ByteDecoder :public Decoder{
         private:
             char _read_buf;
         public:
-            ByteDecoder::ByteDecoder();
+            ByteDecoder();
         private:
-            virtual int ByteDecoder::_get_charactor_count(int version);
-            virtual int ByteDecoder::_read_data(BitStream *bitstream);
+            virtual int _get_charactor_count(int version);
+            virtual int _read_data(BitStream *bitstream);
         };
         
         class GenericDecoder :public Decoder{
         public:
-            GenericDecoder::GenericDecoder();
+            GenericDecoder();
         private:
-            virtual int GenericDecoder::_get_charactor_count(int version);
-            virtual int GenericDecoder::_read_data(BitStream *bitstream);
+            virtual int _get_charactor_count(int version);
+            virtual int _read_data(BitStream *bitstream);
         };
         
         class KanjiDecoder :public Decoder{
         private:
             short _read_buf;
         public:
-            KanjiDecoder::KanjiDecoder();
+            KanjiDecoder();
         private:
-            virtual int KanjiDecoder::_get_charactor_count(int version);
-            virtual int KanjiDecoder::_read_data(BitStream *bitstream);
+            virtual int _get_charactor_count(int version);
+            virtual int _read_data(BitStream *bitstream);
         };
     };
-};
+}
 
 #endif

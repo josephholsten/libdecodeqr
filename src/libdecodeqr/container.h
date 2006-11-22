@@ -142,34 +142,34 @@ namespace Qr{
         int _version_c;
         
     public:
-        Qr::Qr();
-        Qr::~Qr();
+        Qr();
+        ~Qr();
         
-        int Qr::set_version(int v);
-        int Qr::decode_version(unsigned char *data); //FIXME
+        int set_version(int v);
+        int decode_version(unsigned char *data); //FIXME
 
-        int Qr::decode_formatinfo(unsigned short data);
+        int decode_formatinfo(unsigned short data);
 
-        Qr *Qr::init_each_finder_pattern_pixel();
-        Qr *Qr::init_each_timing_pattern_pixel();
-        Qr *Qr::init_each_alignment_pattern_pixel();
-        Qr *Qr::init_each_version_pattern_pixel();
-        Qr *Qr::init_each_formatinfo_pattern_pixel();
-        Qr *Qr::init_each_function_pattern_pixel();
+        Qr *init_each_finder_pattern_pixel();
+        Qr *init_each_timing_pattern_pixel();
+        Qr *init_each_alignment_pattern_pixel();
+        Qr *init_each_version_pattern_pixel();
+        Qr *init_each_formatinfo_pattern_pixel();
+        Qr *init_each_function_pattern_pixel();
 
-        Qr *Qr::each_finder_pattern_pixel(int *x,int *y);
-        Qr *Qr::each_timing_pattern_pixel(int *x,int *y);
-        Qr *Qr::each_alignment_pattern_pixel(int *x,int *y);
-        Qr *Qr::each_version_pattern_pixel(int *x,int *y);
-        Qr *Qr::each_version_pattern_pixel(int pos,int *x,int *y);
-        Qr *Qr::each_formatinfo_pattern_pixel(int *x,int *y);
-        Qr *Qr::each_formatinfo_pattern_pixel(int pos,int *x,int *y);
-        Qr *Qr::each_function_pattern_pixel(int *x,int *y);
+        Qr *each_finder_pattern_pixel(int *x,int *y);
+        Qr *each_timing_pattern_pixel(int *x,int *y);
+        Qr *each_alignment_pattern_pixel(int *x,int *y);
+        Qr *each_version_pattern_pixel(int *x,int *y);
+        Qr *each_version_pattern_pixel(int pos,int *x,int *y);
+        Qr *each_formatinfo_pattern_pixel(int *x,int *y);
+        Qr *each_formatinfo_pattern_pixel(int pos,int *x,int *y);
+        Qr *each_function_pattern_pixel(int *x,int *y);
 
-        unsigned char *Qr::push_codedata(unsigned char data);
-        int Qr::decode_codedata();
+        unsigned char *push_codedata(unsigned char data);
+        int decode_codedata();
     };
 
-};
+}
 
 #endif

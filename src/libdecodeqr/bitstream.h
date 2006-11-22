@@ -33,17 +33,17 @@ namespace Qr{
         int _pos;
 
     public:
-        BitStream::BitStream();
-        BitStream::BitStream(void *src,int size);
-        BitStream::~BitStream();
+        BitStream();
+        BitStream(void *src,int size);
+        ~BitStream();
 
-        bool BitStream::is_eod();
-        int BitStream::position();
-        int BitStream::seek(int pos);
-        void BitStream::rewind();
+        bool is_eod();
+        int position();
+        int seek(int pos);
+        void rewind();
         
-        unsigned char *BitStream::read(int read_bits);
-        int BitStream::read(void *dst,int buf_size,int bitsize);
+        unsigned char *read(int read_bits);
+        int read(void *dst,int buf_size,int bitsize);
     };
 };
 

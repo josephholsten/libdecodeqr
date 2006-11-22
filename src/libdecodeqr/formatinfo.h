@@ -47,39 +47,39 @@ namespace Qr{
 
     class MaskPatterner{
     public:
-        virtual unsigned char MaskPatterner::pixel(int i,int j)=0;
+        virtual unsigned char pixel(int i,int j)=0;
     };
     class MaskPatterner000:public MaskPatterner{
     public:
-        virtual unsigned char MaskPatterner000::pixel(int i,int j);
+        virtual unsigned char pixel(int i,int j);
     };
     class MaskPatterner001:public MaskPatterner{
     public:
-        virtual unsigned char MaskPatterner001::pixel(int i,int j);
+        virtual unsigned char pixel(int i,int j);
     };
     class MaskPatterner010:public MaskPatterner{
     public:
-        virtual unsigned char MaskPatterner010::pixel(int i,int j);
+        virtual unsigned char pixel(int i,int j);
     };
     class MaskPatterner011:public MaskPatterner{
     public:
-        virtual unsigned char MaskPatterner011::pixel(int i,int j);
+        virtual unsigned char pixel(int i,int j);
     };
     class MaskPatterner100:public MaskPatterner{
     public:
-        virtual unsigned char MaskPatterner100::pixel(int i,int j);
+        virtual unsigned char pixel(int i,int j);
     };
     class MaskPatterner101:public MaskPatterner{
     public:
-        virtual unsigned char MaskPatterner101::pixel(int i,int j);
+        virtual unsigned char pixel(int i,int j);
     };
     class MaskPatterner110:public MaskPatterner{
     public:
-        virtual unsigned char MaskPatterner110::pixel(int i,int j);
+        virtual unsigned char pixel(int i,int j);
     };
     class MaskPatterner111:public MaskPatterner{
     public:
-        virtual unsigned char MaskPatterner111::pixel(int i,int j);
+        virtual unsigned char pixel(int i,int j);
     };
 
     class FormatInfo{
@@ -94,22 +94,22 @@ namespace Qr{
         int _pattern_c;
 
     public:
-        FormatInfo::FormatInfo();
-        FormatInfo::~FormatInfo();
+        FormatInfo();
+        ~FormatInfo();
 
-        int FormatInfo::set_level(int l);
-        int FormatInfo::set_mask_pattern(int m);
+        int set_level(int l);
+        int set_mask_pattern(int m);
 
-        int FormatInfo::decode_formatinfo(unsigned short data);
+        int decode_formatinfo(unsigned short data);
 
-        unsigned char FormatInfo::mask_pixel(int i,int j);
+        unsigned char mask_pixel(int i,int j);
 
-        FormatInfo *FormatInfo::init_each_pattern_pixel();
-        FormatInfo *FormatInfo::each_pattern_pixel(int *x,int *y);
-        FormatInfo *FormatInfo::each_pattern_pixel(int pos,int *x,int *y);
+        FormatInfo *init_each_pattern_pixel();
+        FormatInfo *each_pattern_pixel(int *x,int *y);
+        FormatInfo *each_pattern_pixel(int pos,int *x,int *y);
 
     private:
-        int FormatInfo::_error_correct(unsigned short *src);
+        int _error_correct(unsigned short *src);
     };
 }
 #endif

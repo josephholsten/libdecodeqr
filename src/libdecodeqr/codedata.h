@@ -42,15 +42,15 @@ namespace Qr{
         Galois::Field *_gf;
         
     public:
-        CodeBlock::CodeBlock(int total_words,int data_words,int capability,
+        CodeBlock(int total_words,int data_words,int capability,
                              Galois::Field *gf);
-        CodeBlock::~CodeBlock();
+        ~CodeBlock();
         
-        void CodeBlock::clear();
-        unsigned char *CodeBlock::push(unsigned char data);
-        bool CodeBlock::has_vacant_data();
+        void clear();
+        unsigned char *push(unsigned char data);
+        bool has_vacant_data();
         
-        int CodeBlock::error_correct();
+        int error_correct();
     };
     
     class CodeData{
@@ -76,21 +76,21 @@ namespace Qr{
         unsigned char *_raw_data;
         
     public:
-        CodeData::CodeData(int version,int level);
-        CodeData::~CodeData();
+        CodeData(int version,int level);
+        ~CodeData();
         
-        void CodeData::clear();
-        unsigned char *CodeData::push(unsigned char data);
+        void clear();
+        unsigned char *push(unsigned char data);
         
-        unsigned char *CodeData::dump();
-        unsigned char *CodeData::dump_block(int index);
-        unsigned char *CodeData::dump_data();
-        unsigned char *CodeData::raw_data();
+        unsigned char *dump();
+        unsigned char *dump_block(int index);
+        unsigned char *dump_data();
+        unsigned char *raw_data();
         
-        int CodeData::decode();
+        int decode();
 
     private:
-        int CodeData::_error_correct();
+        int _error_correct();
     };
 };
 

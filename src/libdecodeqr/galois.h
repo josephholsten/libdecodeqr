@@ -27,27 +27,27 @@ namespace Galois{
         void *_gf;
         
     public:
-        static Nomial *Nomial::instance(void * gf,unsigned int x);
-        Nomial *Nomial::dup();
+        static Nomial *instance(void * gf,unsigned int x);
+        Nomial *dup();
 
-        unsigned int Nomial::to_exp();
-        unsigned int Nomial::to_vect();
+        unsigned int to_exp();
+        unsigned int to_vect();
 
         inline int m();
         inline int n();
-        inline unsigned int Nomial::exp2vect(unsigned int x);
-        inline unsigned int Nomial::vect2exp(unsigned int x);
+        inline unsigned int exp2vect(unsigned int x);
+        inline unsigned int vect2exp(unsigned int x);
 
-        bool Nomial::is_zero();
-        bool Nomial::operator==(Nomial x);
-        bool Nomial::operator!=(Nomial x);
-        Nomial Nomial::operator+(Nomial x);
-        Nomial Nomial::operator-(Nomial x);
-        Nomial Nomial::operator*(Nomial x);
-        Nomial Nomial::operator/(Nomial x);
+        bool is_zero();
+        bool operator==(Nomial x);
+        bool operator!=(Nomial x);
+        Nomial operator+(Nomial x);
+        Nomial operator-(Nomial x);
+        Nomial operator*(Nomial x);
+        Nomial operator/(Nomial x);
 
     protected:
-        Nomial::Nomial(void * gf,unsigned int x);
+        Nomial(void * gf,unsigned int x);
     };
 
     class Field{
@@ -62,17 +62,17 @@ namespace Galois{
         bool _need_delete;
         
     public:
-        Field::Field(int m,const int *generator_polynomial=NULL);
-        Field::~Field();
+        Field(int m,const int *generator_polynomial=NULL);
+        ~Field();
 
-        int Field::pool_size();
+        int pool_size();
 
-        Nomial *Field::exp2nomial(unsigned int x);
-        Nomial *Field::vect2nomial(unsigned int x);
-        Nomial *Field::zero();
+        Nomial *exp2nomial(unsigned int x);
+        Nomial *vect2nomial(unsigned int x);
+        Nomial *zero();
 
     private:
-        void Field::_gen_gf(const int *generator_polynomial);
+        void _gen_gf(const int *generator_polynomial);
     };
 
 
@@ -82,32 +82,32 @@ namespace Galois{
         int rows;
         Nomial **nomial;
 
-        Polynomial::Polynomial();
-        Polynomial::Polynomial(int rows);
-        Polynomial::Polynomial(int cols,int rows);
-        Polynomial::~Polynomial();
+        Polynomial();
+        Polynomial(int rows);
+        Polynomial(int cols,int rows);
+        ~Polynomial();
 
-        Polynomial *Polynomial::dup();
-        Polynomial *Polynomial::dup(int count);
-        Polynomial *Polynomial::dup(int start_col,int start_row,int count);
-        Polynomial *Polynomial::dup(int start_col,int start_row,
+        Polynomial *dup();
+        Polynomial *dup(int count);
+        Polynomial *dup(int start_col,int start_row,int count);
+        Polynomial *dup(int start_col,int start_row,
                                     int col_count,int row_count);
 
-        Nomial *Polynomial::set(int row,Nomial *val);
-        Nomial *Polynomial::set(int col,int row,Nomial *val);
+        Nomial *set(int row,Nomial *val);
+        Nomial *set(int col,int row,Nomial *val);
 
-        Nomial *Polynomial::get(int row);
-        Nomial *Polynomial::get(int col,int row);
+        Nomial *get(int row);
+        Nomial *get(int col,int row);
 
-        Polynomial *Polynomial::lu();
-        Polynomial *Polynomial::lu(int count);
-        Polynomial *Polynomial::lu(int start_col,int start_row,int count);
-        Polynomial *Polynomial::_lu(Polynomial *buf);
+        Polynomial *lu();
+        Polynomial *lu(int count);
+        Polynomial *lu(int start_col,int start_row,int count);
+        Polynomial *_lu(Polynomial *buf);
 
-        Polynomial *Polynomial::solve();
-        Polynomial *Polynomial::solve(Polynomial *lu);
+        Polynomial *solve();
+        Polynomial *solve(Polynomial *lu);
 
-        void Polynomial::swap_col(int i,int j);
+        void swap_col(int i,int j);
     };
 
     class BCH :public Polynomial{
@@ -122,13 +122,13 @@ namespace Galois{
         int _capability;
 
     public:
-        BCH::BCH(Field *gf,int size,int capability);
-        BCH::~BCH();
+        BCH(Field *gf,int size,int capability);
+        ~BCH();
 
-        int BCH::decode(int syndorome_base=0);
+        int decode(int syndorome_base=0);
 
     private:
-        Galois::Nomial *BCH::_error_syndrome(int d);
+        Galois::Nomial *_error_syndrome(int d);
     };
 }
 
