@@ -6,7 +6,7 @@
 # This is free software with ABSOLUTELY NO WARRANTY.
 # You can redistribute and/or modify it under the terms of GPLv2.
 #
-# $Id: Makefile 20 2006-11-20 03:26:52Z zophos $
+# $Id:$
 #
 LIBDECODEQR_DIR=../libdecodeqr
 
@@ -20,19 +20,17 @@ VPATH=./:$(LIBDECODEQR_DIR)
 .cpp.o:
 	$(CXX) $(CPPFLAGS) $<
 
-lib_sources:=$(LIBDECODEQR_DIR)/codedata.cpp $(LIBDECODEQR_DIR)/bitstream.cpp $(LIBDECODEQR_DIR)/galois.cpp $(LIBDECODEQR_DIR)/ecidecoder.cpp
-objs:=$(notdir $(patsubst %.cpp,%.o,$(lib_sources)))
-dst:=test_galois test_codedata
+dst:=$(basename $(wildcard *.cpp))
 
 all: test-all
 
 test-all: test-galois test-codedata
 
 test-galois: test_galois
-	./test_galois
+	./$<
 
 test-codedata: test_codedata
-	./test_codedata	
+	./$<
 
 test_galois: test_galois.o galois.o
 	$(CXX) -o $@ test_galois.o galois.o
