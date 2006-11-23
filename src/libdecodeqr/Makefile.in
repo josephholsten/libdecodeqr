@@ -29,7 +29,7 @@ AR=@AR@
 ARFLAGS=rcs
 
 LD=@LD@
-LDFLAGS=@LDFLAGS@ -shared -soname $(SONAME) $(LIBS)
+LDFLAGS=@LDFLAGS@ -shared -soname $(SONAME)
 LIBCV=@LIBCV@
 LIBS=$(LIBCV)
 
@@ -51,7 +51,7 @@ $(LIBNAME_A): $(objs)
 	$(AR) $(ARFLAGS) $@ $(objs)
 
 $(LIBNAME_SO): $(objs)
-	$(LD) -o $@ $(objs) $(LDFLAGS)
+	$(LD) -o $@ $(objs) $(LDFLAGS) $(LIBS)
 
 install: $(dsts)
 	$(INSTALL) -m 0755 $(LIBNAME_A) $(LIBNAME_SO) $(libdir)

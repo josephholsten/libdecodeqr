@@ -1,0 +1,44 @@
+#
+# Makefile.in -- a part of libdecodeqr
+#
+# Copyright (c) 2006 NISHI Takao <zophos@koka-in.org>
+#
+# This is free software with ABSOLUTELY NO WARRANTY.
+# You can redistribute and/or modify it under the terms of GPLv2.
+#
+# $Id: Makefile 20 2006-11-20 03:26:52Z zophos $
+#
+LIBDECODEQR_DIR=../libdecodeqr
+
+CXX=@CXX@
+CPPFLAGS=@CPPFLAGS@ @CXXFLAGS@ -c
+LDFLAGS=@LDFLAGS@
+
+VPATH=./:$(LIBDECODEQR_DIR)
+
+.SUFFIXES: .cpp .o
+.cpp.o:
+	$(CXX) $(CPPFLAGS) $<
+
+lib_sources:=$(LIBDECODEQR_DIR)/codedata.cpp $(LIBDECODEQR_DIR)/bitstream.cpp $(LIBDECODEQR_DIR)/galois.cpp $(LIBDECODEQR_DIR)/ecidecoder.cpp
+objs:=$(notdir $(patsubst %.cpp,%.o,$(lib_sources)))
+dst:=test_galois test_codedata
+
+all: test-all
+
+test-all: test-galois test-codedata
+
+test-galois: test_galois
+	./test_galois
+
+test-codedata: test_codedata
+	./test_codedata	
+
+test_galois: test_galois.o galois.o
+	$(CXX) -o $@ test_galois.o galois.o
+
+test_codedata: test_codedata.o codedata.o bitstream.o galois.o ecidecoder.o
+	$(CXX) -o $@ test_codedata.o codedata.o bitstream.o galois.o ecidecoder.o
+
+clean:
+	-rm *.o $(dst)

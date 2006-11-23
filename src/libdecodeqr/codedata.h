@@ -18,10 +18,6 @@
 #include "ecidecoder.h"
 #include "errorcode.h"
 
-#ifdef _DEBUG
-#define DEBUG
-#endif
-
 #ifndef NULL
 #define NULL 0
 #endif

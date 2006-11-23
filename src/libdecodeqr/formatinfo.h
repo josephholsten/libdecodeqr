@@ -12,10 +12,6 @@
 #ifndef __QR_FORMAT_INFO__
 #define __QR_FORMAT_INFO__
 
-#ifdef _DEBUG
-#define DEBUG
-#endif
-
 #ifndef NULL
 #define NULL 0
 #endif

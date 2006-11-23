@@ -100,6 +100,7 @@ AC_SUBST(TEENY)
 
 AC_OUTPUT([Makefile
 libdecodeqr/Makefile
+test/Makefile
 sample/Makefile
 sample/simple/Makefile
 sample/webcam/Makefile])

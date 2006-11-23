@@ -14,10 +14,6 @@
 
 #include <memory.h>
 
-#ifdef _DEBUG
-#define DEBUG
-#endif
-
 #ifndef NULL
 #define NULL 0
 #endif

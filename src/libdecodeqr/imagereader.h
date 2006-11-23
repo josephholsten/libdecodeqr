@@ -12,10 +12,6 @@
 #ifndef __QR_IMAGE_READER__
 #define __QR_IMAGE_READER__
 
-#ifdef DEBUG
-#define _DEBUG
-#endif
-
 #ifdef _DEBUG
 #include <stdio.h>
 #endif

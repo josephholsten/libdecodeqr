@@ -9,14 +9,12 @@
 //
 // $Id$
 //
-#ifndef __QR__
+#ifndef __QR_CONTAINER__
+#define __QR_CONTAINER__
+
 #include "errorcode.h"
 #include "formatinfo.h"
 #include "codedata.h"
-
-#ifdef _DEBUG
-#define DEBUG
-#endif
 
 #ifndef NULL
 #define NULL 0
