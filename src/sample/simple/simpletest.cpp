@@ -48,8 +48,8 @@ int main(int argc,char *argv[])
     // get QR code text
     // To null terminate, a buffer size is larger than body size.
     //
-    char *buf=new unsigned char[header.byte_size+1];
-    qr_decoder_get_body(decoder,buf,header.byte_size+1);
+    char *buf=new char[header.byte_size+1];
+    qr_decoder_get_body(decoder,(unsigned char *)buf,header.byte_size+1);
     printf("%s\n",buf);
 
     //
