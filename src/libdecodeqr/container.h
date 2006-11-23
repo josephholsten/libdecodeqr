@@ -12,7 +12,7 @@
 #ifndef __QR_CONTAINER__
 #define __QR_CONTAINER__
 
-#include "errorcode.h"
+#include "qrerror.h"
 #include "formatinfo.h"
 #include "codedata.h"
 

@@ -17,7 +17,7 @@
 #endif
 
 #include <cv.h>
-#include "errorcode.h"
+#include "qrerror.h"
 #include "container.h"
 
 

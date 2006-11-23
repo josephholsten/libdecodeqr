@@ -137,10 +137,6 @@ SOURCE=.\ecidecoder.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\errorcode.h
-# End Source File
-# Begin Source File
-
 SOURCE=.\formatinfo.h
 # End Source File
 # Begin Source File
@@ -150,6 +146,10 @@ SOURCE=.\galois.h
 # Begin Source File
 
 SOURCE=.\imagereader.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\qrerror.h
 # End Source File
 # Begin Source File
 

@@ -1,22 +1,21 @@
 # Microsoft Developer Studio Generated NMAKE File, Based on libdecodeqr.dsp
 !IF "$(CFG)" == ""
 CFG=libdecodeqr - Win32 Debug
-!MESSAGE 構成が指定されていません。ﾃﾞﾌｫﾙﾄの libdecodeqr - Win32 Debug を設定します。
+!MESSAGE Missing target. Using defualt "libdecodeqr - Win32 Debug".
 !ENDIF 
 
 !IF "$(CFG)" != "libdecodeqr - Win32 Release" && "$(CFG)" != "libdecodeqr - Win32 Debug"
-!MESSAGE 指定された ﾋﾞﾙﾄﾞ ﾓｰﾄﾞ "$(CFG)" は正しくありません。
-!MESSAGE NMAKE の実行時に構成を指定できます
-!MESSAGE ｺﾏﾝﾄﾞ ﾗｲﾝ上でﾏｸﾛの設定を定義します。例:
+!MESSAGE Mode "$(CFG)" is not valid.
+!MESSAGE 
+!MESSAGE Valid modes are:
+!MESSAGE 
+!MESSAGE "libdecodeqr - Win32 Release" (for "Win32 (x86) Static Library")
+!MESSAGE "libdecodeqr - Win32 Debug" (for "Win32 (x86) Static Library")
+!MESSAGE 
+!MESSAGE eg:
 !MESSAGE 
 !MESSAGE NMAKE /f "libdecodeqr.mak" CFG="libdecodeqr - Win32 Debug"
-!MESSAGE 
-!MESSAGE 選択可能なﾋﾞﾙﾄﾞ ﾓｰﾄﾞ:
-!MESSAGE 
-!MESSAGE "libdecodeqr - Win32 Release" ("Win32 (x86) Static Library" 用)
-!MESSAGE "libdecodeqr - Win32 Debug" ("Win32 (x86) Static Library" 用)
-!MESSAGE 
-!ERROR 無効な構成が指定されています。
+!ERROR Invalid target are gaven.
 !ENDIF 
 
 !IF "$(OS)" == "Windows_NT"

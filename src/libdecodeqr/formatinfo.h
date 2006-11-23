@@ -16,7 +16,7 @@
 #define NULL 0
 #endif
 
-#include "errorcode.h"
+#include "qrerror.h"
 #include "galois.h"
 
 #define QR_FORMAT_INFO_GX 0x537 // G(x)=x^10+x^8+x^5+x^4+x^2+x+1

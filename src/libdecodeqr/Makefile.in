@@ -57,7 +57,7 @@ install: $(dsts)
 	$(INSTALL) -m 0755 $(LIBNAME_A) $(LIBNAME_SO) $(libdir)
 	$(LDCONFIG) -n $(libdir)
 	$(LN) -sf $(libdir)/$(LIBNAME_SO) $(libdir)/$(BASENAME).so
-	$(INSTALL) -m 0644 decodeqr.h $(includedir)
+	$(INSTALL) -m 0644 decodeqr.h qrerror.h qrtypes.h $(includedir)
 
 clean:
 	-rm *.a *.o *.so.*

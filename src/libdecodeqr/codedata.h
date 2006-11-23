@@ -16,7 +16,7 @@
 #include "galois.h"
 #include "bitstream.h"
 #include "ecidecoder.h"
-#include "errorcode.h"
+#include "qrerror.h"
 
 #ifndef NULL
 #define NULL 0

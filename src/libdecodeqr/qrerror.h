@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////
 //
-// errorcode.h --a part of libdecodeqr
+// qrerror.h --a part of libdecodeqr
 //
 // Copyright (c) 2006 NISHI Takao <zophos@koka-in.org>
 //

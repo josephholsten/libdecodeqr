@@ -5,35 +5,32 @@
 	
 
 .\codedata.cpp : \
-	"..\..\..\..\..\..\..\program files\microsoft visual studio\vc98\include\basetsd.h"\
 	".\bitstream.h"\
 	".\codedata.h"\
 	".\ecidecoder.h"\
-	".\errorcode.h"\
 	".\galois.h"\
+	".\qrerror.h"\
 	
 
 .\container.cpp : \
-	"..\..\..\..\..\..\..\program files\microsoft visual studio\vc98\include\basetsd.h"\
 	".\bitstream.h"\
 	".\codedata.h"\
 	".\container.h"\
 	".\ecidecoder.h"\
-	".\errorcode.h"\
 	".\formatinfo.h"\
 	".\galois.h"\
+	".\qrerror.h"\
 	
 
 .\ecidecoder.cpp : \
-	"..\..\..\..\..\..\..\program files\microsoft visual studio\vc98\include\basetsd.h"\
 	".\bitstream.h"\
 	".\ecidecoder.h"\
 	
 
 .\formatinfo.cpp : \
-	".\errorcode.h"\
 	".\formatinfo.h"\
 	".\galois.h"\
+	".\qrerror.h"\
 	
 
 .\galois.cpp : \
@@ -41,38 +38,43 @@
 	
 
 .\imagereader.cpp : \
-	"..\..\..\..\..\..\..\program files\microsoft visual studio\vc98\include\basetsd.h"\
-	"..\..\..\..\..\..\..\program files\opencv\cv\include\cv.h"\
-	"..\..\..\..\..\..\..\program files\opencv\cv\include\cvcompat.h"\
-	"..\..\..\..\..\..\..\program files\opencv\cv\include\cvtypes.h"\
-	"..\..\..\..\..\..\..\program files\opencv\cxcore\include\cxcore.h"\
-	"..\..\..\..\..\..\..\program files\opencv\cxcore\include\cxerror.h"\
-	"..\..\..\..\..\..\..\program files\opencv\cxcore\include\cxtypes.h"\
 	".\bitstream.h"\
 	".\codedata.h"\
 	".\container.h"\
 	".\ecidecoder.h"\
-	".\errorcode.h"\
 	".\formatinfo.h"\
 	".\galois.h"\
 	".\imagereader.h"\
+	".\qrerror.h"\
+	{$(INCLUDE)}"cv.h"\
+	{$(INCLUDE)}"cvcompat.h"\
+	{$(INCLUDE)}"cvtypes.h"\
+	{$(INCLUDE)}"cxcore.h"\
+	{$(INCLUDE)}"cxerror.h"\
+	{$(INCLUDE)}"cxtypes.h"\
+	{$(INCLUDE)}"emmintrin.h"\
+	{$(INCLUDE)}"mmintrin.h"\
+	{$(INCLUDE)}"xmmintrin.h"\
 	
 
 .\libdecodeqr.cpp : \
-	"..\..\..\..\..\..\..\program files\microsoft visual studio\vc98\include\basetsd.h"\
-	"..\..\..\..\..\..\..\program files\opencv\cv\include\cv.h"\
-	"..\..\..\..\..\..\..\program files\opencv\cv\include\cvcompat.h"\
-	"..\..\..\..\..\..\..\program files\opencv\cv\include\cvtypes.h"\
-	"..\..\..\..\..\..\..\program files\opencv\cxcore\include\cxcore.h"\
-	"..\..\..\..\..\..\..\program files\opencv\cxcore\include\cxerror.h"\
-	"..\..\..\..\..\..\..\program files\opencv\cxcore\include\cxtypes.h"\
 	".\bitstream.h"\
 	".\codedata.h"\
 	".\container.h"\
 	".\ecidecoder.h"\
-	".\errorcode.h"\
 	".\formatinfo.h"\
 	".\galois.h"\
 	".\imagereader.h"\
+	".\qrerror.h"\
 	".\qrtypes.h"\
+	".\version.h"\
+	{$(INCLUDE)}"cv.h"\
+	{$(INCLUDE)}"cvcompat.h"\
+	{$(INCLUDE)}"cvtypes.h"\
+	{$(INCLUDE)}"cxcore.h"\
+	{$(INCLUDE)}"cxerror.h"\
+	{$(INCLUDE)}"cxtypes.h"\
+	{$(INCLUDE)}"emmintrin.h"\
+	{$(INCLUDE)}"mmintrin.h"\
+	{$(INCLUDE)}"xmmintrin.h"\
 	

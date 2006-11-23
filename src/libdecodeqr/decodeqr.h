@@ -13,7 +13,7 @@
 #define __QR_DECODER__
 
 #include <cv.h>
-#include "errorcode.h"
+#include "qrerror.h"
 #include "qrtypes.h"
 
 #define DEFAULT_ADAPTIVE_TH_SIZE 25
