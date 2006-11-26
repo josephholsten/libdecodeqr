@@ -1,0 +1,15 @@
+# Microsoft Developer Studio Generated Dependency File, included by webcam.mak
+
+.\webcam.cpp : \
+	"..\..\..\..\..\..\..\..\program files\microsoft visual studio\vc98\include\basetsd.h"\
+	"..\..\..\..\..\..\..\..\program files\opencv\cv\include\cv.h"\
+	"..\..\..\..\..\..\..\..\program files\opencv\cv\include\cvcompat.h"\
+	"..\..\..\..\..\..\..\..\program files\opencv\cv\include\cvtypes.h"\
+	"..\..\..\..\..\..\..\..\program files\opencv\cxcore\include\cxcore.h"\
+	"..\..\..\..\..\..\..\..\program files\opencv\cxcore\include\cxerror.h"\
+	"..\..\..\..\..\..\..\..\program files\opencv\cxcore\include\cxtypes.h"\
+	"..\..\..\..\..\..\..\..\program files\opencv\otherlibs\highgui\highgui.h"\
+	"..\..\libdecodeqr\decodeqr.h"\
+	"..\..\libdecodeqr\qrerror.h"\
+	"..\..\libdecodeqr\qrtypes.h"\
+	

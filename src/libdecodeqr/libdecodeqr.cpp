@@ -68,7 +68,6 @@ IplImage *qr_decoder_get_tmp_image_buffer(QrDecoderHandle decoder)
     return(imagereader->tmp_buffer());
 }
 
-
 QrDecoderHandle qr_decoder_set_image_buffer(QrDecoderHandle decoder,
                                             IplImage *src)
 {
@@ -133,10 +132,30 @@ int qr_decoder_get_body(QrDecoderHandle decoder,
     return(size);
 }
 
+CvPoint *qr_decoder_get_coderegion_vertexes(QrDecoderHandle decoder)
+{
+    Qr::ImageReader *imagereader=(Qr::ImageReader *)decoder;
+    return(imagereader->coderegion_vertexes());
+}
+
+CvBox2D *qr_decoder_get_finderpattern_boxes(QrDecoderHandle decoder)
+{
+    Qr::ImageReader *imagereader=(Qr::ImageReader *)decoder;
+    return(imagereader->finderpattern_boxes());
+}
+
 
 char *qr_decoder_version()
 {
     return(LIBDECODEQR_VERSION);
+}
+char *qr_decoder_version_description()
+{
+    return(LIBDECODEQR_VERSION_DESCRIPTION);
+}
+char *qr_decoder_version_product()
+{
+    return(LIBDECODEQR_PRODUCTNAME);
 }
 int qr_decoder_version_major()
 {

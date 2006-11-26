@@ -52,6 +52,9 @@ namespace Qr{
     
     void ImageReader::_init()
     {
+        memset(this->_coderegion_vertexes,0,sizeof(CvPoint)*4);
+        memset(this->_finderpattern_boxes,0,sizeof(CvBox2D)*3);
+
         this->_img_src_internal=NULL;
         this->_img_src=NULL;
         this->_img_transformed=NULL;
@@ -144,6 +147,15 @@ namespace Qr{
     {
         return(this->_img_tmp_1c);
     }
+    CvPoint *ImageReader::coderegion_vertexes()
+    {
+        return(this->_coderegion_vertexes);
+    }
+    CvBox2D *ImageReader::finderpattern_boxes()
+    {
+        return(this->_finderpattern_boxes);
+    }
+
 
     Qr *ImageReader::decode(int adaptive_th_size,
                             int adaptive_th_delta)
@@ -194,6 +206,9 @@ namespace Qr{
             delete this->qr;
             this->qr=NULL;
         }
+
+        memset(this->_coderegion_vertexes,0,sizeof(CvPoint)*4);
+        memset(this->_finderpattern_boxes,0,sizeof(CvBox2D)*3);
 
         //
         // binarize
@@ -436,7 +451,8 @@ namespace Qr{
         int c=this->_seq_finder_pattern->total,i;
         for(i=0;i<c;i++){
             box=*(CvBox2D *)cvGetSeqElem(this->_seq_finder_pattern,i);
-            
+            this->_finderpattern_boxes[i]=box;
+
             //
             // set 2-cells margin for fale-safe
             //
@@ -491,8 +507,6 @@ namespace Qr{
         //
         // calcurate convex hull that assumed as code area
         //
-        //CvSeq *pts=this->_seq_tmp_points[1];
-        //cvClearSeq(pts);
         CvSeq *pts=cvCreateSeq(CV_SEQ_ELTYPE_POINT,
                                sizeof(CvSeq),sizeof(CvPoint),
                                this->_stor_tmp);
@@ -547,9 +561,10 @@ namespace Qr{
         cvResetImageROI(dst);
 
         //
-        // get Centor of Gravity
+        // get code area's Centor of Gravity
         //
-        int c=this->_seq_code_area_contour->total,i;
+        int i;
+        int c=this->_seq_code_area_contour->total;
         CvPoint2D32f cog;
         cog.x=0.0F;
         cog.y=0.0F;
@@ -566,7 +581,8 @@ namespace Qr{
         // sort code_area_contour by clock-wise
         //
         cvSeqSort(this->_seq_code_area_contour,seq_cmp_by_clockwise,&cog);
-        
+
+
         //
         // calculates matrix of perspective transform
         //
@@ -576,31 +592,62 @@ namespace Qr{
         //
         CvPoint2D32f spts[4];
         CvPoint2D32f dpts[4];
+        float max_d=0.0F;
+        int offset=0;
 
 #ifdef _DEBUG
         fprintf(stderr,"target region: ");
 #endif
         for(i=0;i<c;i++){
-            spts[i]=cvPointTo32f(*(CvPoint *)cvGetSeqElem(
-                                     this->_seq_code_area_contour,i));
+            this->_coderegion_vertexes[i]=*(CvPoint *)cvGetSeqElem(
+                this->_seq_code_area_contour,i);
+            spts[i]=cvPointTo32f(this->_coderegion_vertexes[i]);
+            
+            //
+            // find nearest finder pattern
+            //
+            int j=0;
+            float tmp_d=0.0F;
+            float min_d=(this->_finderpattern_boxes[j].center.x-spts[i].x)*
+                (this->_finderpattern_boxes[j].center.x-spts[i].x)+
+                (this->_finderpattern_boxes[j].center.y-spts[i].y)*
+                (this->_finderpattern_boxes[j].center.y-spts[i].y);
+            
+            for(j=1;j<3;j++){
+                tmp_d=(this->_finderpattern_boxes[j].center.x-spts[i].x)*
+                    (this->_finderpattern_boxes[j].center.x-spts[i].x)+
+                    (this->_finderpattern_boxes[j].center.y-spts[i].y)*
+                    (this->_finderpattern_boxes[j].center.y-spts[i].y);
+                    
+                    if(min_d>tmp_d)
+                        min_d=tmp_d;
+            }
+            if(max_d<min_d){
+                max_d=min_d;
+                offset=i;
+            }
             
 #ifdef _DEBUG
             fprintf(stderr,"(%.0lf,%.0lf) ",spts[i].x,spts[i].y);
 #endif
         }
-#ifdef _DEBUG
-        fprintf(stderr,"\n");
-#endif
         
+        offset=(offset+2)%4;
+
+#ifdef _DEBUG
+        fprintf(stderr,", rotation offset=%d\n",offset);
+#endif
+
         float side_len=cvSqrt((spts[0].x-spts[1].x)*(spts[0].x-spts[1].x)+
                               (spts[0].y-spts[1].y)*(spts[0].y-spts[1].y));
-        dpts[0]=spts[0];
-        dpts[1].x=dpts[0].x+side_len;
-        dpts[1].y=dpts[0].y;
-        dpts[2].x=dpts[1].x;
-        dpts[2].y=dpts[1].y+side_len;
-        dpts[3].x=dpts[0].x;
-        dpts[3].y=dpts[0].y+side_len;
+        for(i=0;i<4;i++)
+            dpts[i]=cvPoint2D32f(0.0,0.0);
+
+        dpts[(offset+1)%4].x+=side_len;
+        dpts[(offset+2)%4].x+=side_len;
+        dpts[(offset+2)%4].y+=side_len;
+        dpts[(offset+3)%4].y+=side_len;
+
         CvMat *map=cvCreateMat(3,3,CV_64FC1);
         
         cvWarpPerspectiveQMatrix(spts,dpts,map);
@@ -610,11 +657,11 @@ namespace Qr{
         // 
         cvWarpPerspective(src,dst,map);
         cvReleaseMat(&map);
-        
+
         //
         // set ROI as code area
         //
-        CvRect roi=cvRect((int)dpts[0].x,(int)dpts[0].y,
+        CvRect roi=cvRect((int)dpts[offset].x,(int)dpts[offset].y,
                           (int)side_len+1,(int)side_len+1);
         cvSetImageROI(dst,roi);
         

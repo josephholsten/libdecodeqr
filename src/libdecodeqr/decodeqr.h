@@ -197,7 +197,7 @@ extern int qr_decoder_get_header(QrDecoderHandle decoder,
 
 /////////////////////////////////////////////////////////////////////////
 //
-// get decoded data 
+// get decoded text data 
 //
 // ARGS:
 //   QrDecoderHandle decoder: handler
@@ -217,9 +217,37 @@ extern int qr_decoder_get_body(QrDecoderHandle decoder,
 
 /////////////////////////////////////////////////////////////////////////
 //
+// get vertexes of decoded code region
+//
+// ARGS:
+//   QrDecoderHandle decoder: handler
+//
+// RETURN:
+//   Pointer to CvPoint[4] which consist vertexes of code region
+//
+extern CvPoint *qr_decoder_get_coderegion_vertexes(QrDecoderHandle decoder);
+
+
+/////////////////////////////////////////////////////////////////////////
+//
+// get Box array of decoded finder patterns
+//
+// ARGS:
+//   QrDecoderHandle decoder: handler
+//
+// RETURN:
+//   Pointer to CvBox2D[3] which consist boxes of finder pattern
+//
+extern CvBox2D *qr_decoder_get_finderpattern_boxes(QrDecoderHandle decoder);
+
+
+/////////////////////////////////////////////////////////////////////////
+//
 // version information
 //
 extern char *qr_decoder_version();
+extern char *qr_decoder_version_description();
+extern char *qr_decoder_version_product();
 extern int qr_decoder_version_major();
 extern int qr_decoder_version_minor();
 extern int qr_decoder_version_teeny();

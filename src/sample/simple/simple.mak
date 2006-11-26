@@ -1,22 +1,21 @@
 # Microsoft Developer Studio Generated NMAKE File, Based on simple.dsp
 !IF "$(CFG)" == ""
 CFG=simple - Win32 Debug
-!MESSAGE 構成が指定されていません。ﾃﾞﾌｫﾙﾄの simple - Win32 Debug を設定します。
+!MESSAGE Missing target. Using defualt "simple - Win32 Debug".
 !ENDIF 
 
 !IF "$(CFG)" != "simple - Win32 Release" && "$(CFG)" != "simple - Win32 Debug"
-!MESSAGE 指定された ﾋﾞﾙﾄﾞ ﾓｰﾄﾞ "$(CFG)" は正しくありません。
-!MESSAGE NMAKE の実行時に構成を指定できます
-!MESSAGE ｺﾏﾝﾄﾞ ﾗｲﾝ上でﾏｸﾛの設定を定義します。例:
+!MESSAGE Mode "$(CFG)" is not valid.
 !MESSAGE 
-!MESSAGE NMAKE /f "simple.mak" CFG="simple - Win32 Debug"
+!MESSAGE Valid modes are:
 !MESSAGE 
-!MESSAGE 選択可能なﾋﾞﾙﾄﾞ ﾓｰﾄﾞ:
+!MESSAGE "simple - Win32 Release" (for "Win32 (x86) Static Library")
+!MESSAGE "simple - Win32 Debug" (for "Win32 (x86) Static Library")
 !MESSAGE 
-!MESSAGE "simple - Win32 Release" ("Win32 (x86) Console Application" 用)
-!MESSAGE "simple - Win32 Debug" ("Win32 (x86) Console Application" 用)
+!MESSAGE eg:
 !MESSAGE 
-!ERROR 無効な構成が指定されています。
+!MESSAGE NMAKE /f "simple.mak" CFG="webcam - Win32 Debug"
+!ERROR Invalid target are gaven.
 !ENDIF 
 
 !IF "$(OS)" == "Windows_NT"

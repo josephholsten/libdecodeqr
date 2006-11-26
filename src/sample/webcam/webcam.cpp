@@ -103,7 +103,41 @@ int main(int argc,char *argv[])
                 qr_decoder_get_body(decoder,text,text_size);
                 printf("%s\n\n",text);
 
-                key=cvWaitKey(1000);
+                //
+                // draw found code region with green line
+                //
+                CvPoint *vertexes=qr_decoder_get_coderegion_vertexes(decoder);
+                CvPoint pt=vertexes[3];
+                int i;
+                for(i=0;i<4;i++){
+                    cvLine(src,pt,vertexes[i],CV_RGB(0,255,0),3);
+                    pt=vertexes[i];
+                }
+
+                //
+                // draw found finder patterns with green ellipse
+                //
+                CvBox2D *boxes=qr_decoder_get_finderpattern_boxes(decoder);
+                for(i=0;i<3;i++){
+                    CvSize sz=cvSize((int)boxes[i].size.width/2,
+                                     (int)boxes[i].size.height/2);
+                    cvEllipse(src,
+                              cvPointFrom32f(boxes[i].center),
+                              sz,
+                              boxes[i].angle,
+                              0,360,
+                              CV_RGB(0,255,0),2);
+                }
+
+                if(src->origin)
+                    cvConvertImage(src,src,CV_CVTIMG_FLIP);
+
+                cvShowImage("src",src);
+
+                //
+                // wait 1500msec.
+                //
+                key=cvWaitKey(1500);
             }
         }
 

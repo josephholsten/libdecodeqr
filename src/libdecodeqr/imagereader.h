@@ -17,6 +17,7 @@
 #endif
 
 #include <cv.h>
+#include <memory.h>
 #include "qrerror.h"
 #include "container.h"
 
@@ -51,6 +52,8 @@ namespace Qr{
         CvMemStorage *_stor_tmp;
         CvSeq *_seq_finder_pattern;
         CvSeq *_seq_code_area_contour;
+        CvPoint _coderegion_vertexes[4];
+        CvBox2D _finderpattern_boxes[3];
 
     public:
         ImageReader();
@@ -69,6 +72,8 @@ namespace Qr{
         IplImage *transformed_buffer();
         IplImage *binarized_buffer();
         IplImage *tmp_buffer();
+        CvPoint *coderegion_vertexes();
+        CvBox2D *finderpattern_boxes();
 
         Qr *decode(int adaptive_th_size=
                                 DEFAULT_ADAPTIVE_TH_SIZE,
