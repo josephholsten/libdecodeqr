@@ -35,6 +35,18 @@ void qr_decoder_close(QrDecoderHandle decoder)
     delete imagereader;
 }
 
+short qr_decoder_get_status(QrDecoderHandle decoder)
+{
+    Qr::ImageReader *imagereader=(Qr::ImageReader *)decoder;
+    return(imagereader->status);
+}
+
+int qr_decoder_is_busy(QrDecoderHandle decoder)
+{
+    Qr::ImageReader *imagereader=(Qr::ImageReader *)decoder;
+    return(imagereader->status&QR_IMAGEREADER_WORKING?1:0);
+}
+
 
 QrDecoderHandle qr_decoder_set_image_size(QrDecoderHandle decoder,
                                           int width,int height,

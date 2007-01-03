@@ -68,6 +68,29 @@ extern void qr_decoder_close(QrDecoderHandle decoder);
 
 /////////////////////////////////////////////////////////////////////////
 //
+// get status
+//
+// ARGS:
+//   QrDecoderHandle decoder: handler
+//
+// RETURN: status code
+//
+extern short qr_decoder_get_status(QrDecoderHandle decoder);
+
+/////////////////////////////////////////////////////////////////////////
+//
+// get working status
+//
+// ARGS:
+//   QrDecoderHandle decoder: handler
+//
+// RETURN: status code
+//
+extern int qr_decoder_is_busy(QrDecoderHandle decoder);
+
+
+/////////////////////////////////////////////////////////////////////////
+//
 // set source image size
 //
 // ARGS:

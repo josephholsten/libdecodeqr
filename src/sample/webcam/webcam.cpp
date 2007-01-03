@@ -43,9 +43,12 @@ int main(int argc,char *argv[])
     //
     int key=-1;
 
-    IplImage *src=cvQueryFrame(capture);
-    if(src)
+    IplImage *camera=cvQueryFrame(capture);
+    IplImage *src=NULL;
+    if(camera){
+        src=cvCloneImage(camera);
         qr_decoder_set_image_buffer(decoder,src);
+    }
     else
         key=1;
 
@@ -53,21 +56,21 @@ int main(int argc,char *argv[])
     int text_size=0;
 
     while(key<=0){
-        cvShowImage("src",src);
+        cvShowImage("src",camera);
         key=cvWaitKey(150);
 
         //
         // when [SPACE] key pressed, do decode.
         //
-        if(key==0x20){
+        if(key==0x20&&!qr_decoder_is_busy(decoder)){
             key=-1;
 
             //
             // if left-bottom origin (MS-Windows style) format,
             // it must be converted to left-top origin.
             //
-            if(src->origin)
-                cvConvertImage(src,src,CV_CVTIMG_FLIP);
+            if(camera->origin)
+                cvConvertImage(camera,src,CV_CVTIMG_FLIP);
 
             //
             // While decoding is a failure, decrease the
@@ -141,8 +144,8 @@ int main(int argc,char *argv[])
             }
         }
 
-        src=cvQueryFrame(capture);
-        if(!src)
+        camera=cvQueryFrame(capture);
+        if(!camera)
             break;
     }
     
@@ -150,6 +153,8 @@ int main(int argc,char *argv[])
         delete text;
 
     qr_decoder_close(decoder);
+    if(src)
+        cvReleaseImage(&src);
     cvReleaseCapture(&capture);
 
     return(0);
