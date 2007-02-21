@@ -2,10 +2,12 @@
 //
 // ecidecoder.cpp --a part of libdecodeqr
 //
-// Copyright (c) 2006 NISHI Takao <zophos@koka-in.org>
+// Copyright(C) 2007 NISHI Takao <zophos@koka-in.org>
+//                   JMA  (Japan Medical Association)
+//                   NaCl (Network Applied Communication Laboratory Ltd.)
 //
 // This is free software with ABSOLUTELY NO WARRANTY.
-// You can redistribute and/or modify it under the terms of GPLv2.
+// You can redistribute and/or modify it under the terms of LGPL.
 //
 // $Id$
 //
@@ -102,8 +104,13 @@ namespace Qr{
                             charactor_count);
             this->length=ntohl(this->length);
             this->byte_length=this->length*this->_byte_par_char;
-            this->_raw_data=new unsigned char[this->byte_length];
-            memset(this->_raw_data,0,this->byte_length);
+
+            int storage_sz=this->byte_length;
+            if(this->mode!=4)
+                storage_sz++;
+
+            this->_raw_data=new unsigned char[storage_sz];
+            memset(this->_raw_data,0,storage_sz);
             this->_current_pos=this->_raw_data;
 
             return(bitstream->position());
@@ -156,8 +163,13 @@ namespace Qr{
             int remain_bytes=this->byte_length-this->_written_length;
             if(write_bytes>remain_bytes)
                 write_bytes=remain_bytes;
+
+            char format_str[5];
+            snprintf(format_str,5,"%%0%dd",write_bytes);
             int ret=snprintf((char *)this->_current_pos,
-                             write_bytes,"%d",this->_read_buf);
+                             write_bytes+1,
+                             format_str,
+                             this->_read_buf);
 
             if(ret<0)
                 ret=0-ret;
@@ -206,7 +218,7 @@ namespace Qr{
                 int x=this->_read_buf/45;
                 char c=NUM2ALPABET[x];
                 if(remain_bytes>0){
-                    if(snprintf((char *)this->_current_pos,1,"%c",c)>0){
+                    if(snprintf((char *)this->_current_pos,2,"%c",c)>0){
                         ret++;
                         this->_current_pos++;
                         remain_bytes--;
@@ -217,7 +229,7 @@ namespace Qr{
             if(remain_bytes>0){
                 int x=this->_read_buf%45;
                 char c=NUM2ALPABET[x];
-                if(snprintf((char *)this->_current_pos,1,"%c",c)>0){
+                if(snprintf((char *)this->_current_pos,2,"%c",c)>0){
                     ret++;
                     this->_current_pos++;
                     remain_bytes--;

@@ -2,10 +2,12 @@
 //
 // galois.h --a part of libdecodeqr
 //
-// Copyright (c) 2006 NISHI Takao <zophos@koka-in.org>
+// Copyright(C) 2007 NISHI Takao <zophos@koka-in.org>
+//                   JMA  (Japan Medical Association)
+//                   NaCl (Network Applied Communication Laboratory Ltd.)
 //
 // This is free software with ABSOLUTELY NO WARRANTY.
-// You can redistribute and/or modify it under the terms of GPLv2.
+// You can redistribute and/or modify it under the terms of LGPL.
 //
 // $Id$
 //
@@ -62,7 +64,7 @@ namespace Galois{
         bool _need_delete;
         
     public:
-        Field(int m,const int *generator_polynomial=NULL);
+        Field(int m);
         ~Field();
 
         int pool_size();
@@ -70,9 +72,6 @@ namespace Galois{
         Nomial *exp2nomial(unsigned int x);
         Nomial *vect2nomial(unsigned int x);
         Nomial *zero();
-
-    private:
-        void _gen_gf(const int *generator_polynomial);
     };
 
 

@@ -2,11 +2,13 @@
 //
 // galois.cpp --a part of libdecodeqr
 //
-// Copyright (c) 2006 NISHI Takao <zophos@koka-in.org>
+// Copyright(C) 2007 NISHI Takao <zophos@koka-in.org>
+//                   JMA  (Japan Medical Association)
+//                   NaCl (Network Applied Communication Laboratory Ltd.)
 // Copyright 1999 Phil Karn <karn@qualcomm.com>
 //
 // This is free software with ABSOLUTELY NO WARRANTY.
-// You can redistribute and/or modify it under the terms of GPLv2.
+// You can redistribute and/or modify it under the terms of LGPL.
 //
 // $Id$
 //
@@ -201,7 +203,7 @@ namespace Galois{
     //
     //
     //
-    Field::Field(int m,const int *generator_polynomial)
+    Field::Field(int m)
     {
         this->_need_delete=false;
 
@@ -211,22 +213,17 @@ namespace Galois{
             this->n*=2;
         this->n-=1;
 
-       if(generator_polynomial){
-            this->_gen_gf(generator_polynomial);
-        }
-        else{
-            switch(this->m){
-            case 4:
-                this->exp2vect=(unsigned int *)gf2_4_exp2vect;
-                this->vect2exp=(unsigned int *)gf2_4_vect2exp;
-                break;
-            case 8:
-                this->exp2vect=(unsigned int *)gf2_8_exp2vect;
-                this->vect2exp=(unsigned int *)gf2_8_vect2exp;
-                break;
-            default:
-                throw;
-            }
+        switch(this->m){
+        case 4:
+            this->exp2vect=(unsigned int *)gf2_4_exp2vect;
+            this->vect2exp=(unsigned int *)gf2_4_vect2exp;
+            break;
+        case 8:
+            this->exp2vect=(unsigned int *)gf2_8_exp2vect;
+            this->vect2exp=(unsigned int *)gf2_8_vect2exp;
+            break;
+        default:
+            throw;
         }
 
        this->_pool_size=this->n+1;
@@ -262,49 +259,6 @@ namespace Galois{
     {
         return(this->pool[this->n]);
     }
-
-    ////////////////////////////////////////////////////////////////////////
-    //
-    // Originates in Phil Karn's <karn@qualcomm.com> galois.cpp.
-    //
-    // http://www.ka9q.net/code/fec/
-    //   C++ class library for galois field arithmetic and algebra,
-    //   with RS encoder/decoder.
-    //   Copyright 1999 Phil Karn
-    //
-    void Field::_gen_gf(const int *generator_polynomial)
-    {
-        this->_need_delete=true;
-        this->exp2vect=new unsigned int[this->_pool_size];
-        this->vect2exp=new unsigned int[this->_pool_size];
-
-        unsigned int mask=1;
-        this->exp2vect[this->m]=0;
-        int i;
-        for(i=0;i<this->m;i++,mask<<=1){
-            this->exp2vect[i]=mask;
-            this->vect2exp[this->exp2vect[i]]=i;
-
-            if(generator_polynomial[i])
-                this->exp2vect[this->m]^=mask;
-        }
-        this->vect2exp[this->exp2vect[this->m]]=this->m;
-
-        mask>>=1;
-        for(i=this->m+1;i<this->n;i++){
-            if(this->exp2vect[i-1]>=mask)
-                this->exp2vect[i]=
-                    this->exp2vect[this->m]^((this->exp2vect[i-1]^mask)<<1);
-            else
-                this->exp2vect[i]=this->exp2vect[i-1]<<1;
-
-            this->vect2exp[this->exp2vect[i]]=i;
-        }
-
-        this->vect2exp[0]=this->_pool_size-1;
-        this->exp2vect[this->_pool_size-1]=0;
-    }
-
 
     ////////////////////////////////////////////////////////////////////////
     //

@@ -28,7 +28,9 @@ see ApiReference
  * Gtk2 for UN*X (required by OpenCV) 
 
 == Copying ==
-Copyright (c) 2006 NISHI Takao <zophos@koka-in.org> All rights reserved.[[BR]]
+Copyright (c) 2007 NISHI Takao <zophos@koka-in.org>, [[BR]]
+JMA (Japan Medical Association),[[BR]]
+NaCl (Network Applied Communication Laboratory Ltd.) All rights reserved.[[BR]]
 This is free software with ABSOLUTELY NO WARRANTY.
 
-You can redistribute and/or modify it under the terms of GPLv2.
+You can redistribute and/or modify it under the terms of LGPL.

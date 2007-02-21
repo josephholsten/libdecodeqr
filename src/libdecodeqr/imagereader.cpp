@@ -2,10 +2,12 @@
 //
 // imagereader.cpp --a part of libdecodeqr
 //
-// Copyright (c) 2006 NISHI Takao <zophos@koka-in.org>
+// Copyright(C) 2007 NISHI Takao <zophos@koka-in.org>
+//                   JMA  (Japan Medical Association)
+//                   NaCl (Network Applied Communication Laboratory Ltd.)
 //
 // This is free software with ABSOLUTELY NO WARRANTY.
-// You can redistribute and/or modify it under the terms of GPLv2.
+// You can redistribute and/or modify it under the terms of LGPL.
 //
 // $Id$
 //

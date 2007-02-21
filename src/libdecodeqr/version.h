@@ -2,10 +2,12 @@
 //
 // version.h --a part of libdecodeqr
 //
-// Copyright (c) 2006 NISHI Takao <zophos@koka-in.org>
+// Copyright(C) 2007 NISHI Takao <zophos@koka-in.org>
+//                   JMA  (Japan Medical Association)
+//                   NaCl (Network Applied Communication Laboratory Ltd.)
 //
 // This is free software with ABSOLUTELY NO WARRANTY.
-// You can redistribute and/or modify it under the terms of GPLv2.
+// You can redistribute and/or modify it under the terms of LGPL.
 //
 // $Id: version.h 6 2006-11-18 09:37:16Z zophos $
 //
@@ -17,7 +19,7 @@
 #define LIBDECODEQR_VERSION_MINOR 9
 #define LIBDECODEQR_VERSION_TEENY 3
 #define LIBDECODEQR_VERSION_SUFFIX "-dev"
-#define LIBDECODEQR_VERSION_REVISION "$Rev:$"
+#define LIBDECODEQR_VERSION_REVISION "$Rev$"
 
 //
 // a voodoo magic
