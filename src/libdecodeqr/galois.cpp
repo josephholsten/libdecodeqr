@@ -5,7 +5,6 @@
 // Copyright(C) 2007 NISHI Takao <zophos@koka-in.org>
 //                   JMA  (Japan Medical Association)
 //                   NaCl (Network Applied Communication Laboratory Ltd.)
-// Copyright 1999 Phil Karn <karn@qualcomm.com>
 //
 // This is free software with ABSOLUTELY NO WARRANTY.
 // You can redistribute and/or modify it under the terms of LGPL.
