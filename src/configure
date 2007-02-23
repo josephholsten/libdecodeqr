@@ -1264,8 +1264,8 @@ Optional Features:
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
   --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
-  --with-cv=NAME          specify libcv (eg; cv0.9.7)
-  --with-highgui=NAME     specify libhighgui (eg; highgui0.9.7)
+  --with-cv=NAME          specify libcv (eg, cv0.9.7)
+  --with-highgui=NAME     specify libhighgui (eg, highgui0.9.7)
 
 Some influential environment variables:
   CXX         C++ compiler command
@@ -2833,11 +2833,9 @@ fi
 # Check whether --enable-sample was given.
 if test "${enable_sample+set}" = set; then
   enableval=$enable_sample; enable_sample=$enableval
-else
-  enable_sample=no
 fi
 
-if test x"$enable_sample" = xyes; then
+if test x"$enable_sample" != xno; then
    SAMPLE=sample
 
 # Check whether --with-highgui was given.

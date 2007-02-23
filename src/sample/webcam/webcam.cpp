@@ -97,9 +97,8 @@ int main(int argc,char *argv[])
             //
             // on suceed decoding, print decoded text.
             //
-            if(stat&=QR_IMAGEREADER_DECODED){
-                QrCodeHeader header;
-                qr_decoder_get_header(decoder,&header);
+            QrCodeHeader header;
+            if(qr_decoder_get_header(decoder,&header)){
                 if(text_size<header.byte_size+1){
                     if(text)
                         delete text;

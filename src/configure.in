@@ -44,8 +44,8 @@ AC_SUBST(LIBCV)
 
 AC_ARG_ENABLE(sample,
        [  --enable-sample         build sample programs.],
-       [enable_sample=$enableval], [enable_sample=no])
-if test x"$enable_sample" = xyes; then
+       [enable_sample=$enableval],)
+if test x"$enable_sample" != xno; then
    SAMPLE=sample
    AC_ARG_WITH(highgui,
 	[  --with-highgui=NAME     specify libhighgui (eg, highgui0.9.7)],
