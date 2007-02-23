@@ -30,7 +30,7 @@ INSTALL=@INSTALL@
 
 export prefix exec_prefix libdir includedir MAJOR MINOR TEENY CXX CPPFLAGS AR ARFLAGS LD LDFLAGS LIBCV LIBHIGHGUI INSTALL
 
-dirs:=libdecodeqr sample
+dirs:=libdecodeqr @SAMPLE@
 .PHONY: $(dirs)
 
 all: $(dirs)

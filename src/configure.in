@@ -26,7 +26,10 @@ AC_CHECK_TOOL(LD,ld)
 AC_CHECK_TOOL(LN,ln)
 
 # Checks for libraries.
-AC_CHECK_LIB(cv,cvCreateImage,LIBCV=-lcv,)
+AC_ARG_WITH(cv,
+	 [  --with-cv=NAME          specify libcv (eg, cv0.9.7)],
+	 [ LIBCVNAME=$withval ], [ LIBCVNAME=cv ])
+AC_CHECK_LIB($LIBCVNAME,cvCreateImage,LIBCV=-l$LIBCVNAME,)
 if test -z "$LIBCV"; then
    echo
    echo "If your system already has OpenCV, append place of the libcv.la"
@@ -38,16 +41,35 @@ if test -z "$LIBCV"; then
 fi
 AC_SUBST(LIBCV)
 
-AC_CHECK_LIB(highgui,cvShowImage,LIBHIGHGUI=-lhighgui,)
-if test -z "$LIBHIGHGUI"; then
-   echo
-   echo "If your system already has OpenCV, append place of the libhighgui.la"
-   echo "to your LDFLAGS environment variables. eg,"
-   echo
-   echo 'LDFLAGS="$LDFLAGS -L/usr/local/opencv/lib";export LDFLAGS'
-   echo
-   AC_MSG_ERROR(libhighgui.la not found.)
+
+AC_ARG_ENABLE(sample,
+       [  --enable-sample         build sample programs.],
+       [enable_sample=$enableval], [enable_sample=no])
+if test x"$enable_sample" = xyes; then
+   SAMPLE=sample
+   AC_ARG_WITH(highgui,
+	[  --with-highgui=NAME     specify libhighgui (eg, highgui0.9.7)],
+	[ LIBHIGHGUINAME=$withval ], [ LIBHIGHGUINAME=highgui ])
+else
+   SAMPLE=""
+   LIBHIGHGUINAME=no
 fi
+if test x"$LIBHIGHGUINAME" = xno ; then
+   SAMPLE=""
+   LIBHIGHGUINAME=highgui
+else
+   AC_CHECK_LIB($LIBHIGHGUINAME,cvShowImage,LIBHIGHGUI=-l$LIBHIGHGUINAME,)
+   if test -z "$LIBHIGHGUI"; then
+      echo
+      echo "If your system already has OpenCV, append place of the libhighgui.la"
+      echo "to your LDFLAGS environment variables. eg,"
+      echo
+      echo 'LDFLAGS="$LDFLAGS -L/usr/local/opencv/lib";export LDFLAGS'
+      echo
+      AC_MSG_ERROR(libhighgui.la not found.)
+   fi
+fi
+AC_SUBST(SAMPLE)
 AC_SUBST(LIBHIGHGUI)
 
 
@@ -78,7 +100,7 @@ AC_CHECK_FUNCS([memset snprintf])
 
 AC_ARG_ENABLE(debug,
        [  --enable-debugmessage   turn on debug message.],
-       [enable_debugmessage$enableval], [enable_debugmessage=no])
+       [enable_debugmessage=$enableval], [enable_debugmessage=no])
 if test x"$enable_debugmessage" = xyes; then
    CPPFLAGS="$CPPFLAGS -D_DEBUG"
 fi

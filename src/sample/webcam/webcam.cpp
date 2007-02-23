@@ -73,6 +73,8 @@ int main(int argc,char *argv[])
             //
             if(camera->origin)
                 cvConvertImage(camera,src,CV_CVTIMG_FLIP);
+            else
+                cvCopy(camera,src);
 
             //
             // While decoding is a failure, decrease the
