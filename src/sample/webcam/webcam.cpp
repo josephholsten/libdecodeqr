@@ -46,7 +46,7 @@ int main(int argc,char *argv[])
     int key=-1;
 
     IplImage *camera=cvQueryFrame(capture);
-    IplImage *src=NULL;
+    IplImage *src=NULL,*bin=NULL;
     if(camera){
         src=cvCloneImage(camera);
         qr_decoder_set_image_buffer(decoder,src);
@@ -90,8 +90,10 @@ int main(int argc,char *argv[])
             //
             // for debug, show binarized image.
             //
-            cvShowImage("bin",
-                        qr_decoder_get_binarized_image_buffer(decoder));
+            if(bin)
+                cvReleaseImage(&bin);
+            bin=cvCloneImage(qr_decoder_get_binarized_image_buffer(decoder));
+            cvShowImage("bin",bin);
             printf("adaptive_th_size=%d, status=%04x\n",sz,stat);
 
             //
@@ -156,8 +158,11 @@ int main(int argc,char *argv[])
         delete text;
 
     qr_decoder_close(decoder);
+    if(bin)
+        cvReleaseImage(&bin);
     if(src)
         cvReleaseImage(&src);
+        
     cvReleaseCapture(&capture);
 
     return(0);
