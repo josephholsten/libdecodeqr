@@ -12,11 +12,24 @@
 // $Id$
 //
 #include <stdio.h>
+#include <string.h>
 #include <highgui.h>
 #include "../../libdecodeqr/decodeqr.h"
 
+int usage(char *program_name);
+
 int main(int argc,char *argv[])
 {
+    int show_bin_image=0;
+
+    if(argc>1){
+        if(strcmp(argv[1],"-d"))
+            return(usage(argv[0]));
+        else
+            show_bin_image=1;
+    }
+
+
     //
     // start camera
     //
@@ -32,7 +45,9 @@ int main(int argc,char *argv[])
 
     
     cvNamedWindow("src",1);
-    cvNamedWindow("bin",1);
+
+    if(show_bin_image)
+        cvNamedWindow("bin",1);
 
     puts("Hit [SPACE] key to grab, or any key to end.");
     puts("");
@@ -92,8 +107,10 @@ int main(int argc,char *argv[])
             //
             if(bin)
                 cvReleaseImage(&bin);
-            bin=cvCloneImage(qr_decoder_get_binarized_image_buffer(decoder));
-            cvShowImage("bin",bin);
+            if(show_bin_image){
+                bin=cvCloneImage(qr_decoder_get_binarized_image_buffer(decoder));
+                cvShowImage("bin",bin);
+            }
             printf("adaptive_th_size=%d, status=%04x\n",sz,stat);
 
             //
@@ -166,4 +183,14 @@ int main(int argc,char *argv[])
     cvReleaseCapture(&capture);
 
     return(0);
+}
+
+
+int usage(char *program_name)
+{
+    fprintf(stderr,"usage: %s [-d|-h]\n",program_name);
+    fprintf(stderr,"-d\tturn on debug mode.\n");
+    fprintf(stderr,"-h\tshow thismessage and quit.\n\n");
+    
+    return(-1);
 }
