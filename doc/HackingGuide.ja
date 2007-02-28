@@ -1,0 +1,132 @@
+= Hacking Guide =
+覚え書きなど
+
+== 認識アルゴリズム ==
+''FIXME''
+
+== BCHおよびリードソロモン復号 ==
+JIS X 0510に書いてあるデコード方法を使うよりは普通にピーターソン法で解いた方が楽。
+特に「附属書B 誤り訂正復号手順」は誤訳も多く，わざとわかりにくく書いてあるとしか思えない。
+
+型番情報および形式情報のBCH復号は，ピーターソン法で誤り位置を求め，求まった位置のbitを反転するだけ。
+
+本文の復号は，ピーターソン法でm個の誤り位置J(0)～J(m-1)を検出した後，エラーシンドロームS(n)が
+
+{{{
+S(n) = Σ{r(i) * a(n*i)}
+     = Σ{s(i) * a(n*i)} + Σ{e(J(x)) * a(J(x)*n)}
+     = Σ{e(J(x)) * a(J(x)*n)}
+
+     ただし
+       r(x): 末尾からx byte目の受信データ
+       s(x): 末尾からx byte目の送信データ
+       e(x): 末尾からx byte目のエラーの大きさ
+       a(x): GF(2^8)の指数表現xの元
+}}}
+
+となることを利用して連立方程式
+
+{{{
+e(J(0)) + ... + e(J(m-1)) = S(0)
+e(J(0)) * a(J(0)) + ... + e(J(m-1)) * a(J(m-1)) = S(1)
+  :
+e(J(0)) * a(J(0) * (m-1)) + ... + e(J(m-1)) * a(J(m-1) * (m-1)) = S(m-1)
+}}}
+
+を解いてe(J(0))～e(J(m-1))を求め，求まった値をr(J(x))に加算することで行える。
+
+{{{
+r(x) = s(x) + e(x)
+s(x) = r(x) - e(x)
+
+ガロア体では減算と加算は等価だから
+
+s(x) = r(x) + e(x)
+}}}
+
+本来GF(n^m)のリードソロモンはデータ長がn^m-1である必要があるが，未使用の上位桁を0で埋めることによりデータ長を縮小することができる。JIS X 0510の表12～18で定義されている「RSブロック」はこれを利用してデータ長(総コード長)を縮小しているものと考えられる(ただし未検証)。[[BR]]
+リードソロモン復号を既存のライブラリ(ex. http://www.ka9q.net/code/fec/ など)に置き換える場合には，上位byteを0パディングしてデータ長を255byteにしなければならない可能性がある。
+
+== 内部構造 ==
+いいかげんなクラス図:[[BR]]
+[[Image(class_diagram.png)]]
+
+=== Qr ===
+==== ImageReader ====
+画像解析クラス
+ * [source:/trunk/src/libdecodeqr/imagereader.h#latest imagereader.h]
+ * [source:/trunk/src/libdecodeqr/imagereader.cpp#latest imagereader.cpp]
+
+==== Qr ====
+QRコード (Iterator)
+
+ * [source:/trunk/src/libdecodeqr/container.h#latest container.h]
+ * [source:/trunk/src/libdecodeqr/container.cpp#latest container.cpp]
+
+==== FormatInfo ====
+形式情報　(Iterator)
+
+ * [source:/trunk/src/libdecodeqr/formatinfo.h#latest formatinfo.h]
+ * [source:/trunk/src/libdecodeqr/formatinfo.cpp#latest formatinfo.cpp]
+
+==== PattarnMaker ====
+マスクパターン生成抽象クラス
+ * [source:/trunk/src/libdecodeqr/formatinfo.h#latest formatinfo.h]
+ * [source:/trunk/src/libdecodeqr/formatinfo.cpp#latest formatinfo.cpp]
+
+==== PattarnMaker000 ====
+==== PattarnMaker001 ====
+==== PattarnMaker010 ====
+==== PattarnMaker011 ====
+==== PattarnMaker100 ====
+==== PattarnMaker101 ====
+==== PattarnMaker110 ====
+==== PattarnMaker111 ====
+
+==== CodeData ====
+QRコード本文 (Iterator)
+ * [source:/trunk/src/libdecodeqr/codedata.h#latest codedata.h]
+ * [source:/trunk/src/libdecodeqr/codedata.cpp#latest codedata.cpp]
+
+==== CodeBlock ====
+QRコード本文リードソロモンデータブロック (Iterator)
+ * [source:/trunk/src/libdecodeqr/codedata.h#latest codedata.h]
+ * [source:/trunk/src/libdecodeqr/codedata.cpp#latest codedata.cpp]
+
+==== BitStream ====
+bit処理用疑似IO
+ * [source:/trunk/src/libdecodeqr/bitstream.h#latest bitstream.h]
+ * [source:/trunk/src/libdecodeqr/bitstream.cpp#latest bitstream.cpp]
+
+==== ECI ====
+ECI構造体デコードモジュール
+ * [source:/trunk/src/libdecodeqr/ecidecoder.h#latest ecidecoder.h]
+ * [source:/trunk/src/libdecodeqr/ecidecoder.cpp#latest ecidecoder.cpp]
+
+===== Decoder =====
+===== NumericalDecoder =====
+===== AlphabeticalDecoder =====
+===== ByteDecoder =====
+===== GenericDecoder =====
+===== KanjiDecoder =====
+
+=== Galois ===
+ガロア体演算パッケージ
+ * [source:/trunk/src/libdecodeqr/galois.h#latest galois.h]
+ * [source:/trunk/src/libdecodeqr/galois.cpp#latest galois.cpp]
+
+==== Field ====
+ガロア体母集合 (Flyweight Factory)
+
+同じ生成多項式を持つNomialを全て格納
+
+==== Nomial ====
+ガロア体要素 (Flyweight)
+
+オブジェクトはFieldクラス生成時に生成される
+
+==== Polynomial ====
+ガロア体多項式および行列
+
+==== BCH ====
+BCH演算

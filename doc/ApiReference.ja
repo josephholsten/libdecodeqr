@@ -1,41 +1,41 @@
 = API =
 [[TOC(inline,depth=3)]]
 
-== ������ӹ�¤�� ==
+== 型および構造体 ==
 
 === QrDecoderHandle ===
 {{{
 typedef void * QrDecoderHandle;
 }}}
 
-QR�ǥ������ϥ�ɥ�
+QRデコーダハンドル
 
 === QrCodeHeader ===
 {{{
 typedef struct{
-    int model;          // ��ǥ��ֹ�
-    int version;        // ����
-    int level;          // ����������٥�
-    //int mode;         // ��ʸ�⡼�� (̤����)
-    //int eci_mode;     // ��ʸECI�⡼�� (̤����)
-    int charactor_size; // ��ʸʸ����
-    int byte_size;      // ��ʸ�Х��ȿ�
+    int model;          // モデル番号
+    int version;        // 型番
+    int level;          // 誤り訂正レベル
+    //int mode;         // 本文モード (未実装)
+    //int eci_mode;     // 本文ECIモード (未実装)
+    int charactor_size; // 本文文字数
+    int byte_size;      // 本文バイト数
 } QrCodeHeader;
 }}}
 
-QR�����ɥإå���¤��
+QRコードヘッダ構造体
 
-== ���󥹥ȥ饯�� ==
+== コンストラクタ ==
 
 === qr_decoder_open ===
 {{{
 QrDecoderHandle qr_decoder_open();
 }}}
 
- * ����: �ʤ�
- * �����: QR�ǥ������ϥ�ɥ�
+ * 引数: なし
+ * 戻り値: QRデコーダハンドル
 
-�ǥ��������������롣
+デコーダを初期化する。
 
 === qr_decoder_open_with_image_size ===
 {{{
@@ -47,34 +47,34 @@ QrDecoderHandle qr_decoder_open_with_image_size(
 );
 }}}
 
- * ����:
-   * int width : �����Хåե�����(pixel)
-   * int height : �����Хåե��ι⤵(pixel)
-   * int depth : �����Хåե��Υԥ����뤢�����bit��
-   * int channel : �����Хåե��Υ����ͥ��
- * �����: QR�ǥ������ϥ�ɥ�
+ * 引数:
+   * int width : 画像バッファの幅(pixel)
+   * int height : 画像バッファの高さ(pixel)
+   * int depth : 画像バッファのピクセルあたりのbit数
+   * int channel : 画像バッファのチャンネル数
+ * 戻り値: QRデコーダハンドル
 
-�����Хåե��������⤵���ԥ����뤢�����bit���������ͥ������ꤷ�ƥǥ��������������롣[[BR]]
-�ԥ����뤢�����bit����IPL_DEPTH_8U�ʤ�OpenCV���������ꤹ�롣[[BR]]
-����Ū��24bit�ե륫�顼�����Ǥ� depth = IPL_DEPTH_8U, channel = 3 �Ȼ��ꤹ�롣
+画像バッファの幅，高さ，ピクセルあたりのbit数，チャンネル数を指定してデコーダを初期化する。[[BR]]
+ピクセルあたりのbit数はIPL_DEPTH_8UなどOpenCVの定数を指定する。[[BR]]
+一般的な24bitフルカラー画像では depth = IPL_DEPTH_8U, channel = 3 と指定する。
 
-���ϲ����Υ����������Τξ�硤�Хåե�����������ꤷ�ƥǥ��������������뤳�Ȥǡ��Хåե����ݤˤ����륪���С��إåɤ��㸺�Ǥ��롣
+入力画像のサイズが既知の場合，バッファサイズを指定してデコーダを初期化することで，バッファ確保にかかるオーバーヘッドを低減できる。
 
-== �ǥ��ȥ饯�� ==
+== デストラクタ ==
 === qr_decoder_close ===
 {{{
 void qr_decoder_close(QrDecoderHandle decoder);
 }}}
 
- * ����:
-   * !QrDecoderHandle decoder : QR�ǥ������ϥ�ɥ�
- * �����:�ʤ�
+ * 引数:
+   * !QrDecoderHandle decoder : QRデコーダハンドル
+ * 戻り値:なし
 
-�ǥ�������γƥХåե����˲�����λ������Ԥ���
+デコーダ内の各バッファを破壊し終了処理を行う。
 
-== �Хåե������ ==
+== バッファ初期化 ==
 
-Web����餫������Ϥʤɡ��ե����ޥåȤΰ��ꤷ��������Ϣ³�ǰ����ݤ˻��Ѥ��롣
+Webカメラからの入力など，フォーマットの一定した画像を連続で扱う際に使用する。
 
 === qr_decoder_set_image_size ===
 {{{
@@ -87,16 +87,16 @@ qr_decoder_set_image_size(
 );
 }}}
 
- * ����:
-   * !QrDecoderHandle decoder : QR�ǥ������ϥ�ɥ�
-   * int width : �����Хåե�����(pixel)
-   * int height : �����Хåե��ι⤵(pixel)
-   * int depth : �����Хåե��Υԥ����뤢�����bit��
-   * int channel : �����Хåե��Υ����ͥ��
- * �����: QR�ǥ������ϥ�ɥ�
+ * 引数:
+   * !QrDecoderHandle decoder : QRデコーダハンドル
+   * int width : 画像バッファの幅(pixel)
+   * int height : 画像バッファの高さ(pixel)
+   * int depth : 画像バッファのピクセルあたりのbit数
+   * int channel : 画像バッファのチャンネル数
+ * 戻り値: QRデコーダハンドル
 
-�ǥ����������ϲ����Хåե��������⤵���ԥ����뤢�����bit���������ͥ������ꤹ�롣[[BR]]
-qr_decoder_open()�ǽ���������ǥ������ΥХåե��Υ��������ꡤ�����qr_decoder_open_with_image_size()�ǽ���������ǥ������ΥХåե��������κƻ����Ԥ���
+デコーダの入力画像バッファの幅，高さ，ピクセルあたりのbit数，チャンネル数を指定する。[[BR]]
+qr_decoder_open()で初期化したデコーダのバッファのサイズ指定，およびqr_decoder_open_with_image_size()で初期化したデコーダのバッファサイズの再指定を行う。
 
 === qr_decoder_set_image_buffer ===
 {{{
@@ -106,60 +106,60 @@ QrDecoderHandle qr_decoder_set_image_buffer(
 );
 }}}
 
- * ����:
-   * !QrDecoderHandle decoder : QR�ǥ������ϥ�ɥ�
-   * !IplImage *src : �����Хåե��ؤΥݥ���
- * �����: QR�ǥ������ϥ�ɥ�
+ * 引数:
+   * !QrDecoderHandle decoder : QRデコーダハンドル
+   * !IplImage *src : 画像バッファへのポインタ
+ * 戻り値: QRデコーダハンドル
 
-src�Ȥ��ƻ��ꤷ��IplImage�����β����Хåե���ǥ������β����Хåե��Ȥ��롣[[BR]]
-���ꤹ��Хåե���top-left origin (src->origin==0)��̵����Фʤ�ʤ���[[BR]]
-bottom-left origin (src->origin==1)�ξ��ϡ�highgui��cvConvertImage()�ʤɤ�top-left origin���Ѵ����뤳�ȡ�
+srcとして指定したIplImage形式の画像バッファをデコーダの画像バッファとする。[[BR]]
+指定するバッファはtop-left origin (src->origin==0)で無ければならない。[[BR]]
+bottom-left origin (src->origin==1)の場合は，highguiのcvConvertImage()などでtop-left originに変換すること。
 
-IplImage�ι�¤��[http://opencvlibrary.sourceforge.net/CxCore#head-b9f1e08636cc1f2bc532f3970cc41deaf5eedd9b OpenCV�Υޥ˥奢��]�򻲾ȤΤ��ȡ�
+IplImageの構造は[http://opencvlibrary.sourceforge.net/CxCore#head-b9f1e08636cc1f2bc532f3970cc41deaf5eedd9b OpenCVのマニュアル]を参照のこと。
 
-== �Хåե����� ==
+== バッファ取得 ==
 === qr_decoder_get_image_buffer ===
 {{{
 IplImage *qr_decoder_get_image_buffer(QrDecoderHandle decoder);
 }}}
 
- * ����:
-   * !QrDecoderHandle decoder : QR�ǥ������ϥ�ɥ�
- * �����: IplImage���ΥХåե��ؤΥݥ���
+ * 引数:
+   * !QrDecoderHandle decoder : QRデコーダハンドル
+ * 戻り値: IplImage型のバッファへのポインタ
 
-qr_decoder_open_with_image_size(), qr_decoder_set_image_size()�����qr_decoder_set_image()�����ꤵ�줿���������Ǽ����Хåե��Υ��ɥ쥹��������롣
+qr_decoder_open_with_image_size(), qr_decoder_set_image_size()およびqr_decoder_set_image()で設定された原画像を格納するバッファのアドレスを取得する。
 
 === qr_decoder_get_transformed_image_buffer ===
 {{{
 IplImage *qr_decoder_get_transformed_image_buffer(QrDecoderHandle decoder);
 }}}
- * ����:
-   * !QrDecoderHandle decoder : QR�ǥ������ϥ�ɥ�
- * �����: IplImage���ΥХåե��ؤΥݥ���
+ * 引数:
+   * !QrDecoderHandle decoder : QRデコーダハンドル
+ * 戻り値: IplImage型のバッファへのポインタ
 
-�Ĥ������Ѥߥ��顼�������Ǽ����Хåե��Υ��ɥ쥹��������롣(�ǥХå���)
+歪み補正済みカラー画像を格納するバッファのアドレスを取得する。(デバッグ用)
 
 === qr_decoder_get_binarized_image_buffer ===
 {{{
 IplImage *qr_decoder_get_binarized_image_buffer(QrDecoderHandle decoder);
 }}}
- * ����:
-   * !QrDecoderHandle decoder : QR�ǥ������ϥ�ɥ�
- * �����: IplImage���ΥХåե��ؤΥݥ���
+ * 引数:
+   * !QrDecoderHandle decoder : QRデコーダハンドル
+ * 戻り値: IplImage型のバッファへのポインタ
 
-���Ͳ������Ǽ����Хåե��Υ��ɥ쥹��������롣(�ǥХå���)
+二値画像を格納するバッファのアドレスを取得する。(デバッグ用)
 
 === qr_decoder_get_tmp_image_buffer ===
 {{{
 IplImage *qr_decoder_get_tmp_image_buffer(QrDecoderHandle decoder);
 }}}
- * ����:
-   * !QrDecoderHandle decoder : QR�ǥ������ϥ�ɥ�
- * �����: IplImage���ΥХåե��ؤΥݥ���
+ * 引数:
+   * !QrDecoderHandle decoder : QRデコーダハンドル
+ * 戻り値: IplImage型のバッファへのポインタ
 
-����Хåե��Υ��ɥ쥹��������롣(�ǥХå���)
+ワークバッファのアドレスを取得する。(デバッグ用)
 
-== �ǥ����� ==
+== デコード ==
 === qr_decoder_decode ===
 {{{
 short qr_decoder_decode(
@@ -169,22 +169,22 @@ short qr_decoder_decode(
 );
 }}}
 
- * ����:
-   * !QrDecoderHandle decoder : QR�ǥ������ϥ�ɥ�
-   * int adaptive_th_size : ưŪ���Ͳ������֥��å�������
-   * int adaptive_th_delta : ưŪ���Ͳ�������ʬ����
- * �����: �ǥ����ɷ�̥��ơ�����
+ * 引数:
+   * !QrDecoderHandle decoder : QRデコーダハンドル
+   * int adaptive_th_size : 動的二値化処理ブロックサイズ
+   * int adaptive_th_delta : 動的二値化処理差分閾値
+ * 戻り値: デコード結果ステータス
 
-������ѤߥХåե������Ƥ�ǥ����ɤ��롣[[BR]]
-adaptive_th_size��3�ʾ�δ���ޤ���0�ʲ����ͤ���ꤹ�뤳�ȡ�[[BR]]
-adaptive_th_size��0�ʲ����ͤ���ꤷ���Ȥ��ϡ�adaptive_th_delta�����ͤȤ���������Ͳ��������Ԥ��롣
+初期化済みバッファの内容をデコードする。[[BR]]
+adaptive_th_sizeは3以上の奇数または0以下の値を指定すること。[[BR]]
+adaptive_th_sizeに0以下の値を指定したときは，adaptive_th_deltaを閾値とする固定二値化処理が行われる。
 
-�ǥ����ɷ�̥��ơ�������[source:/trunk/src/libdecodeqr/errorcode.h#latest errorcode.h]��������줿�ͤΤ������������Τ�OR����������ΤȤʤ롣
+デコード結果ステータスは[source:/trunk/src/libdecodeqr/qrerror.h#latest qrerror.h]で定義された値のうち該当するものをOR処理したものとなる。
 
 ex)
- * �ǥ�����������: QR_IMAGEREADER_DECODED
- * �ǥ����ɤˤ�������������ʸ�˽�����ǽ�ʥ��顼���ޤޤ�Ƥ����Ȥ�: QR_IMAGEREADER_DECODED|QR_CODEDATA_UNRECOVERABLE
- * ��������QR�����ɤ�����Ǥ����ǥ����ɤ˼��Ԥ����Ȥ�: QR_IMAGEREADER_ERROR|QR_IMAGEREADER_NOT_FOUND_FINDER_PATTERN
+ * デコード成功時: QR_IMAGEREADER_DECODED
+ * デコードには成功したが本文に修復不能なエラーが含まれていたとき: QR_IMAGEREADER_DECODED|QR_CODEDATA_UNRECOVERABLE
+ * 画像からQRコードを特定できずデコードに失敗したとき: QR_IMAGEREADER_ERROR|QR_IMAGEREADER_NOT_FOUND_FINDER_PATTERN
 
 
 === qr_decoder_decode_image ===
@@ -197,20 +197,20 @@ short qr_decoder_decode_image(
 );
 }}}
 
- * ����:
-   * !QrDecoderHandle decoder : QR�ǥ������ϥ�ɥ�
-   * !IplImage *src : �����Хåե��ؤΥݥ���
-   * int adaptive_th_size : ưŪ���Ͳ������֥��å�������
-   * int adaptive_th_delta : ưŪ���Ͳ�������ʬ����
- * �����: �ǥ����ɷ�̥��ơ�������
+ * 引数:
+   * !QrDecoderHandle decoder : QRデコーダハンドル
+   * !IplImage *src : 画像バッファへのポインタ
+   * int adaptive_th_size : 動的二値化処理ブロックサイズ
+   * int adaptive_th_delta : 動的二値化処理差分閾値
+ * 戻り値: デコード結果ステータス。
 
-src��Ϳ����줿������ǥ����ɤ��롣
+srcに与えられた画像をデコードする。
 
-src�Ȥ��ƻ��ꤷ��IplImage�����β����Хåե���ǥ������β����Хåե��Ȥ��롣[[BR]]
-���ꤹ��Хåե���top-left origin (src->origin==0)��̵����Фʤ�ʤ���[[BR]]
-bottom-left origin (src->origin==1)�ξ��ϡ�highgui��cvConvertImage()�ʤɤ�top-left origin���Ѵ����뤳�ȡ�
+srcとして指定したIplImage形式の画像バッファをデコーダの画像バッファとする。[[BR]]
+指定するバッファはtop-left origin (src->origin==0)で無ければならない。[[BR]]
+bottom-left origin (src->origin==1)の場合は，highguiのcvConvertImage()などでtop-left originに変換すること。
 
-== �ǥ����ɺѤߥǡ������� ==
+== デコード済みデータ取得 ==
 === qr_decoder_get_header ===
 {{{
 int qr_decoder_get_header(
@@ -219,12 +219,12 @@ int qr_decoder_get_header(
 );
 }}}
 
- * ����:
-   * !QrDecoderHandle decoder : QR�ǥ������ϥ�ɥ�
-   * !QrCodeHeader *header : QR�����ɥإå���¤�Τ��Ǽ����Хåե��ؤΥݥ���
- * �����: ���Ի�:0��������:1
+ * 引数:
+   * !QrDecoderHandle decoder : QRデコーダハンドル
+   * !QrCodeHeader *header : QRコードヘッダ構造体を格納するバッファへのポインタ
+ * 戻り値: 失敗時:0，成功時:1
 
-QR�����ɥإå���¤�Τ��������header�˻��ꤵ�줿�Хåե��˳�Ǽ���롣
+QRコードヘッダ構造体を取得し，headerに指定されたバッファに格納する。
 
 
 === qr_decoder_get_body ===
@@ -236,52 +236,75 @@ int qr_decoder_get_body(
 );
 }}}
 
- * ����:
-   * !QrDecoderHandle decoder : QR�ǥ������ϥ�ɥ�
-   * unsigned char *buf : QR��������ʸ���Ǽ����Хåե��ؤΥݥ���
-   * int buf_size : �Хåե�������(byte)
- * �����: ���Ի�:0��������:��Ǽ���줿��ʸ��byte��
+ * 引数:
+   * !QrDecoderHandle decoder : QRデコーダハンドル
+   * unsigned char *buf : QRコード本文を格納するバッファへのポインタ
+   * int buf_size : バッファサイズ(byte)
+ * 戻り値: 失敗時:0，成功時:格納された本文のbyte数
 
-QR��������ʸ���������buf�˻��ꤵ�줿�Хåե��˳�Ǽ���롣
+QRコード本文を取得し，bufに指定されたバッファに格納する。
 
-��Ǽ���줿��ʸ�ˤϡ����η����˴ؤ�餺����üʸ��'\0'��'''�ɲä���ʤ�'''��[[BR]]
-�������Хåե��ϻ�����0���ꥢ�����Τǡ�qr_decoder_get_body()�Ǽ����Ǥ�����ʸ��byte������礭�ʥ������ΥХåե����Ѱդ��뤳�Ȥǽ�üʸ���Τ����ȤǤ��롣
+格納された本文には，その形式に関わらず，終端文字'\0'が'''追加されない'''。[[BR]]
+ただしバッファは事前に0クリアされるので，qr_decoder_get_header()で取得できる本文のbyte数より大きなサイズのバッファを用意することで終端文字のかわりとできる。
 
-== �С��������� ==
-�С���������� "Major.Minor.Teeny Suffix (Revision)" ���鹽�����졤Major, Minor, Teeny�ϥ�꡼�����˹�������롣[[BR]]
-��ȯ��С������ϡ�������꡼��ͽ���"Major.Minor.Teeny"�Τ��Ȥ�Suffix�Ȥ���"-dev"���ղä�����ȯ��С������֤� Revision�Ƕ��̤��롣
+== デコーダ状態取得 ==
+=== qr_decoder_get_status ===
+{{{
+short qr_decoder_get_status(QrDecoderHandle decoder);
+}}}
+
+ * 引数:
+   * !QrDecoderHandle decoder : QRデコーダハンドル
+ * 戻り値: ステータスコード
+
+ステータスは[source:/trunk/src/libdecodeqr/qrerror.h#latest qrerror.h]で定義された値のうち該当するものをOR処理したものとなる。
+
+=== qr_decoder_is_busy ===
+{{{
+int qr_decoder_is_busy(QrDecoderHandle decoder);
+}}}
+
+ * 引数:
+   * !QrDecoderHandle decoder : QRデコーダハンドル
+ * 戻り値: デコード中:1, アイドル:0
+
+デコード実行中か否かの状態を戻す。
+
+== バージョン情報 ==
+バージョン情報は "Major.Minor.Teeny Suffix (Revision)" から構成され，Major, Minor, Teenyはリリース時に更新される。[[BR]]
+開発中バージョンは，時期リリース予定の"Major.Minor.Teeny"のあとにSuffixとして"-dev"を付加し，開発中バージョン間は Revisionで区別する。
 
 === qr_decoder_version ===
 {{{
 char *qr_decoder_version();
 }}}
 
- * ����: �ʤ�
- * �����: �С��������� (ʸ����)�ؤΥݥ���
+ * 引数: なし
+ * 戻り値: バージョン情報 (文字列)へのポインタ
 
 === qr_decoder_version_major ===
 {{{
 int qr_decoder_version_major();
 }}}
 
- * ����: �ʤ�
- * �����: �᥸�㡼�С������
+ * 引数: なし
+ * 戻り値: メジャーバージョン
 
 === qr_decoder_version_minor ===
 {{{
 int qr_decoder_version_minor();
 }}}
 
- * ����: �ʤ�
- * �����: �ޥ��ʡ��С������
+ * 引数: なし
+ * 戻り値: マイナーバージョン
 
 === qr_decoder_version_teeny ===
 {{{
 int qr_decoder_version_teeny();
 }}}
 
- * ����: �ʤ�
- * �����: �ƥ��˥��С������
+ * 引数: なし
+ * 戻り値: ティニアバージョン
 
 
 === qr_decoder_version_suffix ===
@@ -289,13 +312,24 @@ int qr_decoder_version_teeny();
 char *qr_decoder_version_suffix();
 }}}
 
- * ����: �ʤ�
- * �����: �С�����󥵥ե��å���(ʸ����)�ؤΥݥ���
+ * 引数: なし
+ * 戻り値: バージョンサフィックス(文字列)へのポインタ
 
 === qr_decoder_version_revision ===
 {{{
 char *qr_decoder_version_revision();
 }}}
 
- * ����: �ʤ�
- * �����: ��ӥ�������(ʸ����)�ؤΥݥ���
+ * 引数: なし
+ * 戻り値: リビジョン情報(文字列)へのポインタ
+
+----
+{{{
+#!html
+<div style='text-align:right'>
+}}}
+Last-modified: [[LastModified]]
+{{{
+#!html
+</div>
+}}}
