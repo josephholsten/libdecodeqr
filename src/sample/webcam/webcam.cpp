@@ -132,7 +132,7 @@ int main(int argc,char *argv[])
                 // draw found code region with green line
                 //
                 CvPoint *vertexes=qr_decoder_get_coderegion_vertexes(decoder);
-                CvPoint pt=vertexes[3];
+                CvPoint pt=vertexes[4];
                 int i;
                 for(i=0;i<4;i++){
                     cvLine(src,pt,vertexes[i],CV_RGB(0,255,0),3);
