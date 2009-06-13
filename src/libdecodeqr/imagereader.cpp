@@ -488,7 +488,7 @@ namespace Qr{
         }
         i=4;
         cvFillPoly(mask,&points,&i,1,cvScalarAll(255));
-        delete points;
+        delete [] points;
         
         //
         //  apply mask to src image and reduce noise using opening

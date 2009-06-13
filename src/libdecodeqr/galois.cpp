@@ -234,7 +234,12 @@ namespace Galois{
     }
     Field::~Field()
     {
-        delete this->pool;
+        for(int i=0;i<this->_pool_size;i++){
+            if(this->pool[i])
+                delete this->pool[i];
+	}
+        delete [] this->pool;
+
         if(this->_need_delete){
             delete this->exp2vect;
             delete this->vect2exp;
@@ -474,7 +479,7 @@ namespace Galois{
                this->nomial+j*this->rows,sz);
         memcpy(this->nomial+j*this->rows,tmp,sz);
         
-        delete tmp;
+        delete [] tmp;
     }
 
     

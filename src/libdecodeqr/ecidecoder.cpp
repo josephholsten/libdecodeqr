@@ -76,7 +76,7 @@ namespace Qr{
         Decoder::~Decoder()
         {
             if(this->_raw_data)
-                delete this->_raw_data;
+                delete [] this->_raw_data;
         }
         
         unsigned char *Decoder::raw_data()

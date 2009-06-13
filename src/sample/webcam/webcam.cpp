@@ -120,7 +120,7 @@ int main(int argc,char *argv[])
             if(qr_decoder_get_header(decoder,&header)){
                 if(text_size<header.byte_size+1){
                     if(text)
-                        delete text;
+                        delete [] text;
                     
                     text_size=header.byte_size+1;
                     text=new unsigned char[text_size];
@@ -172,7 +172,7 @@ int main(int argc,char *argv[])
     }
     
     if(text)
-        delete text;
+        delete [] text;
 
     qr_decoder_close(decoder);
     if(bin)

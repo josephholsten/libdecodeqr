@@ -70,11 +70,11 @@ namespace Qr{
         {{404,1,80,50,15},{404,4,101,81,10},
          {404,3,36,12,12},{404,4,50,22,14}},
         {{466,6,58,36,11},{466,2,116,92,12},
-         {466,7,42,14,14},{466,4,46,20,14}},
+         {466,7,42,14,14},{466,4,46,20,13}},
         {{532,8,59,37,11},{532,4,133,107,13},
          {532,12,33,11,11},{532,8,44,20,12}},
-        {{581,5,65,41,12},{581,5,109,87,11},
-         {581,11,36,12,12},{581,5,54,24,15}},
+        {{581,4,64,40,12},{581,3,145,115,15},
+         {581,11,36,12,12},{581,11,36,16,10}},
         
         {{655,5,65,41,12},{655,5,109,87,11},
          {655,11,36,12,12},{655,5,54,24,15}},
@@ -108,7 +108,7 @@ namespace Qr{
         {{1921,3,73,45,14},{1921,3,147,117,15},
          {1921,11,45,15,15},{1921,4,54,24,15}},
         {{2051,21,73,45,14},{2051,7,146,116,15},
-         {2051,19,45,15,15},{2051,21,73,45,14}},
+         {2051,19,45,15,15},{2051,21,53,23,15}},
         
         // version 30
         {{2185,19,75,47,14},{2185,5,145,115,15},
@@ -120,7 +120,7 @@ namespace Qr{
         {{2611,14,74,46,14},{2611,17,145,115,15},
          {2611,11,45,15,15},{2611,29,54,24,15}},
         {{2761,14,74,46,14},{2761,13,145,115,15},
-         {2761,46,16,15,},{2761,44,54,24,15}},
+         {2761,59,46,16,15},{2761,44,54,24,15}},
         
         {{2876,12,75,47,14},{2876,12,151,121,15},
          {2876,22,45,15,15},{2876,39,54,24,15}},
@@ -155,7 +155,7 @@ namespace Qr{
     }
     CodeBlock::~CodeBlock()
     {
-        delete this->data;
+        delete [] this->data;
     }
     
     void CodeBlock::clear()
@@ -328,12 +328,12 @@ namespace Qr{
     CodeData::~CodeData()
     {
         if(this->_raw_data)
-            delete this->_raw_data;
+            delete [] this->_raw_data;
         
         for(int i=0;i<this->data_blocks;i++){
             delete this->data[i];
         }
-        delete this->data;
+        delete [] this->data;
         delete this->_gf;
     }
     
@@ -346,7 +346,7 @@ namespace Qr{
         this->length=0;
         this->byte_length=0;
         if(this->_raw_data){
-            delete this->_raw_data;
+            delete [] this->_raw_data;
             this->_raw_data=NULL;
         }
         this->_size=0;
@@ -466,7 +466,7 @@ namespace Qr{
                     int sz=this->byte_length+decoder->byte_length;
                     this->_raw_data=new unsigned char[sz];
                     memcpy(this->_raw_data,buf,this->byte_length);
-                    delete buf;
+                    delete [] buf;
                     memcpy(this->_raw_data+this->byte_length,
                            decoder->raw_data(),
                            decoder->byte_length);
