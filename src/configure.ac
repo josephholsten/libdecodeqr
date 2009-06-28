@@ -32,21 +32,6 @@ if test x"$enable_debugmessage" = xyes; then
    CPPFLAGS="$CPPFLAGS -D_DEBUG"
 fi
 
-# Checks for libraries.
-# FIXME: Replace `main' with a function in `-ldecodeqr':
-#AC_CHECK_LIB([decodeqr], [main])
-AC_ARG_ENABLE(sample,
-	[AS_HELP_STRING([--enable-sample],
-	  [build sample programs])],
-	[enable_sample=$withval],
-	[enable_sample=no])
-if test x"$enable_sample" != xno; then
-   SAMPLE=sample
-else
-   SAMPLE=""
-fi
-AC_SUBST(SAMPLE)
-
 PKG_CHECK_MODULES([DEPS], [opencv])
 AC_SUBST(DEPS_CFLAGS)
 AC_SUBST(DEPS_LDFLAGS)
