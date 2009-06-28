@@ -1,3 +1,5 @@
+AM_CPPFLAGS = $(DEPS_CFLAGS)
 noinst_PROGRAMS = webcam
-simpletest_SOURCES = webcam.cpp
-simpletest_LIBADD = libdecodeqr/libdecodeqr.la
+webcam_SOURCES = webcam.cpp
+webcam_LDADD = ../../libdecodeqr/libdecodeqr.la
+webcam_LDADD += $(DEPS_LIBS)

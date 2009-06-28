@@ -1,0 +1,41 @@
+#
+# Makefile.in -- a part of libdecodeqr
+#
+# Copyright(C) 2007 NISHI Takao <zophos@koka-in.org>
+#                   JMA  (Japan Medical Association)
+#                   NaCl (Network Applied Communication Laboratory Ltd.)
+#
+# This is free software with ABSOLUTELY NO WARRANTY.
+# You can redistribute and/or modify it under the terms of LGPL.
+#
+# $Id: Makefile 20 2006-11-20 03:26:52Z zophos $
+#
+LIBDECODEQR_DIR=../../libdecodeqr
+
+CXX=@CXX@
+CPPFLAGS=@CPPFLAGS@ @CXXFLAGS@ -c -I$(LIBDECODEQR_DIR)
+
+LIBCV=@LIBCV@
+LIBHIGHGUI=@LIBHIGHGUI@
+LIBS=$(LIBCV) $(LIBHIGHGUI) -ldecodeqr
+
+LDFLAGS=@LDFLAGS@ -L$(LIBDECODEQR_DIR)
+
+VPATH=./:$(LIBDECODEQR_DIR)
+
+.SUFFIXES: .cpp .o
+.cpp.o:
+	$(CXX) $(CPPFLAGS) $<
+
+
+sources:=$(wildcard *.cpp)
+objs:=$(patsubst %.cpp,%.o,$(wildcard *.cpp))
+dst:=webcam
+
+all: $(dst)
+
+$(dst): $(objs) libdecodeqr.a
+	$(CXX) $(LDFLAGS) -o $@ $(objs) $(LIBS)
+
+clean:
+	-rm *.o $(dst)
