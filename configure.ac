@@ -3,6 +3,7 @@
 
 AC_PREREQ([2.63])
 AC_INIT(libdecodeqr, package, zophos@koka-in.org)
+AC_CONFIG_AUX_DIR([build-aux])
 AM_INIT_AUTOMAKE([-Wall -Werror foreign])
 AC_CONFIG_SRCDIR([libdecodeqr/bitstream.cpp])
 
@@ -66,9 +67,9 @@ AC_SUBST(TEENY)
 AC_CONFIG_FILES([
 	Makefile
     libdecodeqr/Makefile
-    sample/Makefile
-    sample/simple/Makefile
-    sample/webcam/Makefile
+    examples/Makefile
+    examples/simple/Makefile
+    examples/webcam/Makefile
     test/Makefile
 ])
 AC_OUTPUT
