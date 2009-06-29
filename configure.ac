@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.63])
-AC_INIT(libdecodeqr, package, zophos@koka-in.org)
+AC_INIT(libdecodeqr, 0.9.4, zophos@koka-in.org)
 AC_CONFIG_AUX_DIR([build-aux])
 AM_INIT_AUTOMAKE([-Wall -Werror foreign])
 AC_CONFIG_SRCDIR([libdecodeqr/bitstream.cpp])
@@ -49,20 +49,18 @@ AC_TYPE_SIZE_T
 # Checks for library functions.
 AC_HEADER_STDC
 AC_CHECK_FUNCS([memset memcpy snprintf])
-
 # Get version info
-libdecodeqr=$srcdir/libdecodeqr
-decodeqr_major_version=`grep '#define LIBDECODEQR_VERSION_MAJOR' $libdecodeqr/version.h`
-decodeqr_minor_version=`grep '#define LIBDECODEQR_VERSION_MINOR' $libdecodeqr/version.h`
-decodeqr_teeny_version=`grep '#define LIBDECODEQR_VERSION_TEENY' $libdecodeqr/version.h`
+# DECODEQR_VERSION(ID)
+# ----------------------------
+# ID should be MAJOR, MINOR, or TEENY
+AC_DEFUN([DECODEQR_VERSION], [
+  $1=`grep '#define LIBDECODEQR_VERSION_$1' $srcdir/libdecodeqr/version.h | sed 's/#define LIBDECODEQR_VERSION_$1 \([0-9]*\)/\1/'`
+  AC_SUBST($1)
+])
 
-MAJOR=`expr "$decodeqr_major_version" : '#define LIBDECODEQR_VERSION_MAJOR \([0-9]*\)'`
-MINOR=`expr "$decodeqr_minor_version" : '#define LIBDECODEQR_VERSION_MINOR \([0-9]*\)'`
-TEENY=`expr "$decodeqr_teeny_version" : '#define LIBDECODEQR_VERSION_TEENY \([0-9]*\)'`
-
-AC_SUBST(MAJOR)
-AC_SUBST(MINOR)
-AC_SUBST(TEENY)
+DECODEQR_VERSION(MAJOR)
+DECODEQR_VERSION(MINOR)
+DECODEQR_VERSION(TEENY)
 
 AC_CONFIG_FILES([
 	Makefile
