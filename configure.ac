@@ -33,6 +33,8 @@ if test x"$enable_debugmessage" = xyes; then
    CPPFLAGS="$CPPFLAGS -D_DEBUG"
 fi
 
+CPPFLAGS="$CPPFLAGS -fpermissive"
+
 PKG_CHECK_MODULES([DEPS], [opencv])
 AC_SUBST(DEPS_CFLAGS)
 AC_SUBST(DEPS_LDFLAGS)

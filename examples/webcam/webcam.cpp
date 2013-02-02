@@ -79,7 +79,7 @@ int main(int argc,char *argv[])
         //
         // when [SPACE] key pressed, do decode.
         //
-        if(key==0x20&&!qr_decoder_is_busy(decoder)){
+        if((key==0x20 || key==1048608)&&!qr_decoder_is_busy(decoder)){
             key=-1;
 
             //
